@@ -1,17 +1,25 @@
 # Api access key:	 	ec4718eeefd44297
 # Api secret key:	 	b0b9f15a93b6f064
 
+# PROGRESS:
+# I figured out how to access and save images from WikiArt. It looks like the only way we can access every painting in one request is
+# to access a list sorted by popularity. Additionally, this only returns the short version of painting information, so we have to make an 
+# additional request with each painting ID to get the style. We can also request image dimensions, so hopefully we won't have to resize.
+
 import requests
 
 session = requests.Session()
 session.get("https://www.wikiart.org/en/Api/2/login?accessCode=ec4718eeefd44297&secretCode=b0b9f15a93b6f064")
 
 response = session.get("https://www.wikiart.org/en/api/2/Painting?id=57727089edc2cb3880be55d5")
+
+# Must convert to json dictionary to be able to access element by key
 response = response.json()
 style = response["styles"]
 
 print(response["styles"])
 
+# "image" is a link to the isolated image
 image = session.get(response["image"])
 file = open("img.jpg", "wb")
 file.write(image.content)
