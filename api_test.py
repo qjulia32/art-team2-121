@@ -7,22 +7,45 @@
 # additional request with each painting ID to get the style. We can also request image dimensions, so hopefully we won't have to resize.
 
 import requests
+import os
+import time
+
+DELAY_TIME = 0.00001
 
 session = requests.Session()
-session.get("https://www.wikiart.org/en/Api/2/login?accessCode=ec4718eeefd44297&secretCode=b0b9f15a93b6f064")
+key = session.post("https://www.wikiart.org/en/Api/2/login?accessCode=ec4718eeefd44297&secretCode=b0b9f15a93b6f064")
+key = key.json()["SessionKey"]
 
-response = session.get("https://www.wikiart.org/en/api/2/Painting?id=57727089edc2cb3880be55d5")
+# Dictionary of all paintings. key = style, value = list of painting ids
+paintings = {}
+
+response = session.get("https://www.wikiart.org/en/api/2/MostViewedPaintings?authSessionKey" + key)
 
 # Must convert to json dictionary to be able to access element by key
 response = response.json()
-style = response["styles"]
 
-print(response["styles"])
+# while response["hasMore"]:
+for p in response["data"]:
+    id = p["id"]
+    # print(id)
+    p = session.get("https://www.wikiart.org/en/api/2/Painting?id="+ id + "&authSessionKey" + key)
+    p = p.json()
+    for style in p["styles"]:
+        if not (style in paintings):
+            paintings[style] = [id]
+        else:
+            paintings[style].append(id)
+    time.sleep(DELAY_TIME)
+
+print(paintings)
+
+# style = response["styles"]
+
+# print(response["styles"])
 
 # "image" is a link to the isolated image
-image = session.get(response["image"])
-file = open("img.jpg", "wb")
-file.write(image.content)
-file.close()
+# image = session.get(response["image"])
+# file = open("img.jpg", "wb")
+# file.write(image.content)
+# file.close()
 
-# 'id': '57727089edc2cb3880be55d5', 'title': 'Don Quixote and Sancho Setting Out', 'url': 'don-quixote-and-sancho-setting-out-1863', 'artistUrl': 'gustave-dore', 'artistName': 'Gustave Dore', 'artistId': '57726d81edc2cb3880b48481', 'completitionYear': 1863, 'width': 466, 'image': 'https://uploads5.wikiart.org/images/gustave-dore/don-quixote-and-sancho-setting-out-1863.jpg!Large.jpg', 'height': 600
