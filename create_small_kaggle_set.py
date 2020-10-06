@@ -2,7 +2,9 @@ import numpy as np
 import pandas as pd
 import os, os.path, zipfile, shutil
 
-PIC_NUMBER = 50
+# TODO: change these
+THRESHOLD = 100 # min number of images per style for style to be included
+PIC_NUMBER = 25 # pics you want per style that passes the threshold
 
 # Goal: find styles with 50+ images and put them in their respective folders
 # assumptions: train_1 data and train_info.csv already downloaded/unzipped
@@ -10,8 +12,7 @@ PIC_NUMBER = 50
 # NOTE: basically, train_info.csv has info on ALL training images, but we only
 # downloaded train_1, so the csv has info on files we don't have. I made a work
 # around in order to get 50 images, as you'll see below
-
-# NOTE: this creates a data folder w/ 36/133 total styles w/ 1,800 total pictures
+# NOTE: with THRESHOLD = 50 and PIC_Number = 50: there's 36/133 total styles w/ 1,800 total pictures
 
 # csv_path = "INSERT THE PATH TO THE train_info.csv FILE HERE INCLUDING NAME train_info.csv"
 csv_path = "C:/Users/qjuli/Downloads/train_info.csv/train_info.csv"
@@ -44,13 +45,16 @@ for style in stylesNumDict.keys():
         if os.path.exists(img_old_path):
             styleCount[style].append(image)
 
+folder = 0
 for style, count in styleCount.items():
 
-    if len(count) >= PIC_NUMBER:
+    if len(count) >= THRESHOLD:
+
+        folder += 1
         # print("working on", style)
 
         # folder_path = "INSERT DIRECTORY OF YOUR CLONED GIT REPO HERE, IN A different DATA FOLDER OF SOME SORT and end w/ backslash -> /"+style
-        folder_path = "C:/Users/qjuli/Downloads/Harvey Mudd/Fall 2020/software_dev/art-team2-121/small_"+str(PIC_NUMBER)+"_data/"+style
+        folder_path = "C:/Users/qjuli/Downloads/Harvey Mudd/Fall 2020/software_dev/art-team2-121/small_"+str(PIC_NUMBER)+"_"+str(THRESHOLD)+"_data/"+style
 
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -67,3 +71,4 @@ for style, count in styleCount.items():
             # # can also move it if you want to store space
             # # shutil.move(img_old_path, img_new_path)
 
+print(folder)
