@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import os, os.path, zipfile, shutil
 
+PIC_NUMBER = 50
+
 # Goal: find styles with 50+ images and put them in their respective folders
 # assumptions: train_1 data and train_info.csv already downloaded/unzipped
 
@@ -44,17 +46,17 @@ for style in stylesNumDict.keys():
 
 for style, count in styleCount.items():
 
-    if len(count) >= 50:
+    if len(count) >= PIC_NUMBER:
         # print("working on", style)
 
         # folder_path = "INSERT DIRECTORY OF YOUR CLONED GIT REPO HERE, IN A different DATA FOLDER OF SOME SORT and end w/ backslash -> /"+style
-        folder_path = "C:/Users/qjuli/Downloads/Harvey Mudd/Fall 2020/software_dev/art-team2-121/small_50_data/"+style
+        folder_path = "C:/Users/qjuli/Downloads/Harvey Mudd/Fall 2020/software_dev/art-team2-121/small_"+str(PIC_NUMBER)+"_data/"+style
 
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
-        # print(style, count[:50])
-        for image in count[:50]:
+        # print(style, count[:PIC_NUMBER])
+        for image in count[:PIC_NUMBER]:
             img_old_path = path+image
             img_new_path = folder_path+ "/"+image
             shutil.copy(img_old_path, img_new_path)
