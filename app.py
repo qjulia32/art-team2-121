@@ -36,6 +36,7 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             return render_template("index.html", user_image = full_path)
         else:
