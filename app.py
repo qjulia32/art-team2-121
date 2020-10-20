@@ -1,10 +1,17 @@
 import os
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from werkzeug.utils import secure_filename
+# following modules don't work, fastai not able to be installed locally
+#from fastai import *
+#from fastai.basic_train import load_learner
+#from fastai.vision import * #open_image
+#from flask_cors import CORS,cross_origin
+# need to pip install torch (google for window)
 #import cloudinary as Cloud
 #from cloudinary.uploader import upload
 #from cloudinary.utils import cloudinary_url
 
+#path to user uploads
 UPLOAD_FOLDER = 'static/uploads/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
@@ -21,6 +28,7 @@ def allowed_file(filename):
 def upload_form():
 	return render_template('upload.html')
 
+# code to upload image
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -38,7 +46,8 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            return render_template("index.html", user_image = full_path)
+            return render_template("upload.html", user_image = full_path)
         else:
             flash('Invalid image type')
             return redirect(request.url)
+

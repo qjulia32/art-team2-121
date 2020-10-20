@@ -1,0 +1,112 @@
+/* imported nicer looking font*/
+@font-face{
+  font-family: apple;
+  src: url('Apple Chancery Regular/Apple Chancery Regular.ttf');
+}
+
+/* load starry night at 50% opacity as background image */
+body {
+    background-image: url('starry-night.jpg');
+    background-color: rgba(255,255,255,0.5);
+    background-repeat: no-repeat;
+    background-blend-mode: lighten;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+  }
+  
+h1 {
+    text-align: center;
+    font-family: apple;
+    font-size: 45px;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+  text-align: center;
+  font-family: apple;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+/* center user image */
+.center {
+  display: block;
+  margin: auto;
+  position: relative;
+  margin-top: 80px;
+}
+/* center placeholder for classifications*/
+.margin {
+  text-align: center;
+}
+/* classify button, stylized 
+TODO: this code is redundant, find way to combine with label code */
+.classify {
+  color: white;
+  height: 50px;
+  width: 200px; 
+  background-color: royalblue;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  left: 0;
+  right: 0;
+  border: 2px solid black;
+  border-radius: 20px;
+  font-size : 20px;
+  font-family: apple;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* hide default text displayed for upload file button */
+input[type="file"] {
+  display: none;
+}
+
+/* stylize button display for upload file */
+label {
+  color: white;
+  height: 50px;
+  width: 200px; 
+  background-color: royalblue;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  border: 2px solid black;
+  border-radius: 20px;
+  font-size : 20px;
+  font-family: apple;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* change color of upload button when hovering over */
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: lightslategray;
+}
+
+/* change color of classify button when hovering over
+TODO: again, very redundant, find way to combine with file button*/
+.classify:focus,
+.classify:hover {
+    background-color: lightslategray;
+}
+
+/* when autoscrolling to classifications, use smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+
