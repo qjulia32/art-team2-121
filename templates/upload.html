@@ -30,7 +30,9 @@
 <!-- displays image and classify button after user uploads an image -->
 {% if user_image %}
 	<div>
-		<img src="{{ user_image }}" alt="User Image" class = "center" width = 200 height = 300>
+		<!-- image always uploads with 200 x 300 dimensions
+		TODO: find out how we want to resize images, this is a placeholder for now -->
+		<img src="{{ user_image }}" alt="User Image" class = "center" width = 200 height = 300> 
 	</div>
 	<p> <button type = "button" onclick = "bottum()" class = "classify" > Classify! </button>  </p>
 	<br>
