@@ -1,49 +1,83 @@
-<!doctype html>
-<title>Upload</title>
+<!DOCTYPE html>
+<html>
 <head>
 	<link rel="stylesheet" href="../static/uploads/css/main.css">
 </head>
-
-<h1>Art Style Identifier</h1>
-<p> Upload an art image to determine the style, time period, <br> or author using this simple classifier! (accepts .png, .jpg, .jpeg)</p> 
-<!-- flash messages based on statements in app.py -->
-<p>
-	{% with messages = get_flashed_messages() %}
-	  {% if messages %}
-		<ul class=flashes>
-		{% for message in messages %}
-		  <li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	  {% endif %}
-	{% endwith %}
-</p>
-
-<!-- Upload image button that auto submits -->
-<form method="post" action="/" enctype="multipart/form-data">
-    <dl>
-		<input type="file"  onchange = "form.submit()" name="file" id="file" class="inputfile" />
-		<label for="file">Choose an image</label>
-    </dl>
-</form>
-
-<!-- displays image and classify button after user uploads an image -->
-{% if user_image %}
-	<div>
-		<!-- image always uploads with 200 x 300 dimensions
-		TODO: find out how we want to resize images, this is a placeholder for now -->
-		<img src="{{ user_image }}" alt="User Image" class = "center" width = 200 height = 300> 
+<body>
+<!-- introduction page -->
+<div class="bg">
+	<div class = "text-container1"> 
+		<h1 class = bgh1>Art Classifier</h1>
+		<p class = bgp> Upload an art image to determine the style, time period, <br>or author using this simple classifier! (accepts .png, .jpg, .jpeg)</p> 
+		<button class=button type = "button" onclick = "bottum()"> Begin </button> <!-- autoscrolls down to second page-->
+		<!-- TODO: add an about us button that either redirects to a new page or has a hover feature -->
 	</div>
-	<p> <button type = "button" onclick = "bottum()" class = "classify" > Classify! </button>  </p>
-	<br>
-	<div id="placeholder" style = "display:none;" class = "margin"> insert classifications  <br> . <br> . <br> . <br>. <br> . <br> . <br></div>
-{% endif %}
+</div>
 
+<div id="begin" class="bg2">
+	<div class="text-container">
+		<div class="left">
+			<h3 class = "lineheight"> 1. Upload an image </h3>
+			<p class = "lineheight"> (accepts .jpg, .jpeg, .png) </p>
+			<form method="post" action="/" enctype="multipart/form-data">
+				<dl>
+					<!-- handles upload and display -->
+					<!-- TODO: error handling (incorrect extension or image size too large-->
+					<input type="file" name="file" id="file" class="inputfile" onchange = "form.submit()" autofocus/>
+					<label for="file">Upload</label>
+				</dl>
+			</form>
+			{% if user_image %}
+				<!-- image always uploads with 250 x 300 dimensions
+				TODO: find out how we want to resize images, this is a placeholder for now -->
+				<a id = "display" > <img src="{{ user_image }}"  alt="User Image" class = "center" width = 250 height = 300> </a>
+			{% endif %}
+		</div>
+		<div class="middle">
+			<h3 class = "lineheight"> 2. Choose your classifier </h3>
+			<p class = "lineheight"> Hover over for more info</p>
+			<button class="button" type = "button" > More info </button> <br>
+			<div class="button-container">
+				<!-- placeholder buttons, no functionality yet-->
+				<!-- TODO: find out of to keep these button highlighted when pressing GO button-->
+				<button class="cbutton" type = "button" > Artist </button> <br>
+				<button class="cbutton" type = "button" > Style </button> <br>
+				<button class="cbutton" type = "button" > Time </button> <br>
+			</div>
+		</div>
+		<div class="right">
+			<h3 class = "lineheight"> 3. Classify </h3>	
+			<p class = "lineheight"> Press GO to classify!</p>
+			<!-- TODO: error handling (press GO without uploaded file) -->
+			<button class="button" type = "button" onclick = "classify()"> GO </button>
+			<div class = "crect">
+			{% if classify %}
+			<!-- passes in model predictions and waits for GO button to be clicked to display -->
+			<!-- TODO: stylize output predictions -->
+			<p id = "classify" style = "display:none;"> {{ classify }} </p>
+			{% endif %}</div>
+			<!-- TODO: add new button that scrolls to "view similar images" and decide what scroll type to use-->
+		</div>
+	</div>
+</div>
+</html>
+</body>
 
-<!-- autoscrolls to the classification after clicking classifcation button -->
 <script>
 	function bottum() {
-		document.getElementById('placeholder').style.display = '';
-		document.getElementById('placeholder').scrollIntoView(true);
+		document.getElementById('begin').scrollIntoView({behavior: "smooth"});
 	};
+
+	function classify() {
+		document.getElementById('classify').style.display = '';
+	}
 </script>
+
+{% if scroll %}
+<script>
+	// if an image has been uploaded by the user, render template starting on second page instead of first
+	document.addEventListener("DOMContentLoaded", function() {
+	document.location.hash = '#{{ scroll }}';
+	});
+</script>
+{% endif %}

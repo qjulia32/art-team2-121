@@ -1,6 +1,6 @@
 Flask
 gunicorn
-fastai
+fastai==1.0.61
 torch
 flask_cors
 werkzeug
