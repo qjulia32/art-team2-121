@@ -24,10 +24,12 @@ def predict_single(img_file):
     'function to take image and return prediction'
     prediction = learn.predict(open_image(img_file))
     probs_list = prediction[2].numpy()
-    return {
-        'category': classes[prediction[1].item()],
-        'probs': {c: round(float(probs_list[i]), 5) for (i, c) in enumerate(classes)}
-    }
+    category = classes[prediction[1].item()]
+    #probs = {category: round(float(probs_list[8]))}
+    return category
+        #'category': classes[prediction[1].item()],
+        #'probs': {c: round(float(probs_list[i]), 5) for (i, c) in enumerate(classes)}
+    
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -51,13 +53,12 @@ def upload_file():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
+        if file and not allowed_file(file.filename):
+            flash('Error: Invalid image type')
+            return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             classification = predict_single(full_path)
             return render_template("upload.html", user_image = full_path, classify = classification, scroll = "display")
-        else:
-            flash('Invalid image type')
-            return redirect(request.url)
-        

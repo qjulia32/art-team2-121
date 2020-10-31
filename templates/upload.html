@@ -27,11 +27,24 @@
 					<label for="file">Upload</label>
 				</dl>
 			</form>
-			{% if user_image %}
-				<!-- image always uploads with 250 x 300 dimensions
-				TODO: find out how we want to resize images, this is a placeholder for now -->
-				<a id = "display" > <img src="{{ user_image }}"  alt="User Image" class = "center" width = 250 height = 300> </a>
-			{% endif %}
+			<div class = "crect">
+				<p>
+					{% with messages = get_flashed_messages() %}
+					{% if messages %}
+						<div class=flashes>
+						{% for message in messages %}
+							{{ message }}
+						{% endfor %}
+						</div>
+					{% endif %}
+					{% endwith %}
+				</p>
+				{% if user_image %}
+					<!-- image always uploads with 250 x 300 dimensions
+					TODO: find out how we want to resize images, this is a placeholder for now -->
+					<a id = "display" > <img src="{{ user_image }}"  alt="User Image" class = "center" width = 350 height = 300> </a>
+				{% endif %}
+			</div>
 		</div>
 		<div class="middle">
 			<h3 class = "lineheight"> 2. Choose your classifier </h3>
@@ -54,7 +67,7 @@
 			{% if classify %}
 			<!-- passes in model predictions and waits for GO button to be clicked to display -->
 			<!-- TODO: stylize output predictions -->
-			<p id = "classify" style = "display:none;"> {{ classify }} </p>
+			<p id = "classify" style = "display:none;"> Style: {{ classify }} </p>
 			{% endif %}</div>
 			<!-- TODO: add new button that scrolls to "view similar images" and decide what scroll type to use-->
 		</div>
