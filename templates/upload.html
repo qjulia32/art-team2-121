@@ -28,7 +28,7 @@
 				</dl>
 			</form>
 			<div class = "crect">
-				<p>
+			<!--	<p>
 					{% with messages = get_flashed_messages() %}
 					{% if messages %}
 						<div class=flashes>
@@ -38,11 +38,17 @@
 						</div>
 					{% endif %}
 					{% endwith %}
-				</p>
+				</p>-->
+				{% if wrongext %}
+				<p> Error: Wrong file extension </p>
+				{% endif %}
+				{% if toobig %}
+				<p>File is too large</p>
+				{% endif %}
 				{% if user_image %}
 					<!-- image always uploads with 250 x 300 dimensions
 					TODO: find out how we want to resize images, this is a placeholder for now -->
-					<a id = "display" > <img src="{{ user_image }}"  alt="User Image" class = "center" width = 350 height = 300> </a>
+					<a id = "display" > <img src="{{ user_image }}"  alt="User Image" class = "center" width = 350 height = 300> {{ user_image }} </a>
 				{% endif %}
 			</div>
 		</div>
@@ -64,6 +70,9 @@
 			<!-- TODO: error handling (press GO without uploaded file) -->
 			<button class="button" type = "button" onclick = "classify()"> GO </button>
 			<div class = "crect">
+			{% if nofile %}
+			<p id = "nofile" style = "display: none;"> Please upload a file first </p>
+			{% endif %}
 			{% if classify %}
 			<!-- passes in model predictions and waits for GO button to be clicked to display -->
 			<!-- TODO: stylize output predictions -->
@@ -83,14 +92,13 @@
 
 	function classify() {
 		document.getElementById('classify').style.display = '';
+		document.getElementById('nofile').style.display = '';
 	}
 </script>
 
 {% if scroll %}
 <script>
 	// if an image has been uploaded by the user, render template starting on second page instead of first
-	document.addEventListener("DOMContentLoaded", function() {
-	document.location.hash = '#{{ scroll }}';
-	});
+	document.getElementById('begin').scrollIntoView();
 </script>
 {% endif %}
