@@ -55,8 +55,8 @@ def upload_file():
             return render_template("upload.html", wrongext = 1, scroll = "display")
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            classification = predict_single(full_path)
+            #classification = predict_single(full_path)
             return render_template("upload.html", user_image = full_path, classify = classification, scroll = "display")
 
