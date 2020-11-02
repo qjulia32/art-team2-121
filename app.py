@@ -60,6 +60,3 @@ def upload_file():
             #classification = predict_single(full_path)
             return render_template("upload.html", user_image = full_path, scroll = "display")
 
-@app.errorhandler(413)
-def too_large(e): 
-    return render_template("upload.html", toobig = 1, scroll = "display"), 413
