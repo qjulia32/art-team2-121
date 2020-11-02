@@ -1,8 +1,8 @@
 import os
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from werkzeug.utils import secure_filename
-from fastai.basic_train import load_learner
-from fastai.vision import open_image
+#from fastai.basic_train import load_learner
+#from fastai.vision import open_image
 #from flask_cors import CORS,cross_origin
 # need to google how to install pytorch
 
@@ -55,8 +55,8 @@ def upload_file():
             return render_template("upload.html", wrongext = 1, scroll = "display")
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            #classification = predict_single(full_path)
-            return render_template("upload.html", user_image = full_path, scroll = "display")
+            classification = predict_single(full_path)
+            return render_template("upload.html", user_image = full_path, classify = classification, scroll = "display")
 
