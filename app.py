@@ -18,8 +18,8 @@ app.secret_key = "secret key"
 
 
 #back end model, outputs prediction of given image 
-learn = load_learner(path='./models', file='trained_model.pkl')
-classes = learn.data.classes
+#learn = load_learner(path='./models', file='trained_model.pkl')
+#classes = learn.data.classes
 
 def predict_single(img_file):
     'function to take image and return prediction'
