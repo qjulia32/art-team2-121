@@ -42,13 +42,10 @@
 				{% if wrongext %}
 				<p> Error: Wrong file extension </p>
 				{% endif %}
-				{% if toobig %}
-				<p>File is too large</p>
-				{% endif %}
 				{% if user_image %}
 					<!-- image always uploads with 250 x 300 dimensions
 					TODO: find out how we want to resize images, this is a placeholder for now -->
-					<a id = "display" > <img src="{{ user_image }}"  alt="User Image" class = "center" width = 350 height = 300> {{ user_image }} </a>
+					<a id = "display" > <img src="{{ user_image }}"  alt="User Image" class = "center" width = 350 height = 300></a>
 				{% endif %}
 			</div>
 		</div>

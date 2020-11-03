@@ -2,25 +2,25 @@ import os
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image
-#from fastai.basic_train import load_learner
-#from fastai.vision import open_image
+from fastai.basic_train import load_learner
+from fastai.vision import open_image
 #from flask_cors import CORS,cross_origin
 # need to google how to install pytorch
 
 app = Flask(__name__)
 
 #path to user uploads
-#UPLOAD_FOLDER = 'static/uploads/'
+UPLOAD_FOLDER = 'static/uploads/'
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 app.secret_key = "secret key"
 
 
 #back end model, outputs prediction of given image 
-#learn = load_learner(path='./models', file='trained_model.pkl')
-#classes = learn.data.classes
+learn = load_learner(path='./models', file='trained_model.pkl')
+classes = learn.data.classes
 
 def predict_single(img_file):
     'function to take image and return prediction'
@@ -55,11 +55,11 @@ def upload_file():
         if file and not allowed_file(file.filename):
             return render_template("upload.html", wrongext = 1, scroll = "display")
         if file and allowed_file(file.filename):
-            image = Image.open(file)
-            image.show()
-            #filename = secure_filename(file.filename)
-            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            #full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            #classification = predict_single(full_path)
-            return render_template("upload.html", scroll = "display")
+            #image = Image.open(file)
+            #image.show()
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            classification = predict_single(full_path)
+            return render_template("upload.html", user_image = full_path, classify = classification, scroll = "display")
 

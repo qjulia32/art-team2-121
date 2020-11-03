@@ -81,7 +81,7 @@ body, html{
   display: block;
   margin: auto;
   position: relative;
-  margin-top: -30px;
+  margin-top: 0px;
 }
 
 /* middle column (classifier column) */
