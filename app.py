@@ -41,6 +41,7 @@ def allowed_file(filename):
 def upload_form():
 	return render_template('upload.html')
 
+"""
 # for uploading an image
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -62,4 +63,4 @@ def upload_file():
             full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             classification = predict_single(full_path)
             return render_template("upload.html", user_image = full_path, classify = classification, scroll = "display")
-
+"""
