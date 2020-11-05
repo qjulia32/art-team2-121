@@ -3,4 +3,3 @@ gunicorn
 flask_cors
 werkzeug
 Pillow==7.2.0
-fastai==1.6.0
