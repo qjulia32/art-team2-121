@@ -50,11 +50,11 @@ def upload_file():
         # submit an empty part without filename
         # sphagetti code alert: this renders but really should be redirect, but there are issues with scrolling with redirect
         if file.filename == '':
+            # doesn't work, suppose to display error message after go
             return redirect(request.file)
         if file and not allowed_file(file.filename):
             return render_template("upload.html", wrongext = 1, scroll = "display")
         if file and allowed_file(file.filename):
-            #placeholder stuff
             #image = Image.open(file)
             #image.show()
             filename = secure_filename(file.filename)
@@ -63,4 +63,3 @@ def upload_file():
             classification = predict_single(full_path)
             return render_template("upload.html", user_image = full_path, classify = classification, scroll = "display")
 
-#need error handler for large pictures

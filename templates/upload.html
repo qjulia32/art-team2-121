@@ -2,6 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href="../static/uploads/css/main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
 <!-- introduction page -->
@@ -19,34 +20,20 @@
 		<div class="left">
 			<h3 class = "lineheight"> 1. Upload an image </h3>
 			<p class = "lineheight"> (accepts .jpg, .jpeg, .png) </p>
-			<form method="post" action="/" enctype="multipart/form-data">
-				<dl>
-					<!-- handles upload and display -->
-					<!-- TODO: error handling (incorrect extension or image size too large-->
-					<input type="file" name="file" id="file" class="inputfile" onchange = "form.submit()" autofocus/>
-					<label for="file">Upload</label>
-				</dl>
-			</form>
-			<div class = "crect">
-			<!--	<p>
-					{% with messages = get_flashed_messages() %}
-					{% if messages %}
-						<div class=flashes>
-						{% for message in messages %}
-							{{ message }}
-						{% endfor %}
-						</div>
-					{% endif %}
-					{% endwith %}
-				</p>-->
-				{% if wrongext %}
-				<p> Error: Wrong file extension </p>
-				{% endif %}
-				{% if user_image %}
-					<!-- image always uploads with 250 x 300 dimensions
-					TODO: find out how we want to resize images, this is a placeholder for now -->
-					<a id = "display" > <img src="{{ user_image }}"  alt="User Image" class = "center" width = 350 height = 300></a>
-				{% endif %}
+			<button class="button" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+			<div class="file-upload">
+				<div class="image-upload-wrap">
+				  <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+				  <div class="drag-text">
+					<h3>Drag and drop a file or select add Image</h3>
+				  </div>
+				</div>
+				<div class="file-upload-content">
+				  <img class="file-upload-image" src="#" alt="your image" />
+				  <div class="image-title-wrap">
+					<button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+				  </div>
+				</div>
 			</div>
 		</div>
 		<div class="middle">
@@ -56,9 +43,9 @@
 			<div class="button-container">
 				<!-- placeholder buttons, no functionality yet-->
 				<!-- TODO: find out of to keep these button highlighted when pressing GO button-->
-				<button class="cbutton" type = "button" > Artist </button> <br>
-				<button class="cbutton" type = "button" > Style </button> <br>
-				<button class="cbutton" type = "button" > Time </button> <br>
+				<button class="button" type = "button" > Artist </button> <br>
+				<button class="button" type = "button" > Style </button> <br>
+				<button class="button" type = "button" > Time </button> <br>
 			</div>
 		</div>
 		<div class="right">
@@ -83,14 +70,47 @@
 </body>
 
 <script>
-	function bottum() {
-		document.getElementById('begin').scrollIntoView({behavior: "smooth"});
-	};
+function bottum() {
+	document.getElementById('begin').scrollIntoView({behavior: "smooth"});
+};
 
-	function classify() {
-		document.getElementById('classify').style.display = '';
-		document.getElementById('nofile').style.display = '';
-	}
+function classify() {
+	document.getElementById('classify').style.display = '';
+	document.getElementById('nofile').style.display = '';
+}
+
+function readURL(input) {
+	if (input.files && input.files[0]) {
+
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.image-upload-wrap').hide();
+
+      $('.file-upload-image').attr('src', e.target.result);
+      $('.file-upload-content').show();
+
+      $('.image-title').html(input.files[0].name);
+    };
+
+    reader.readAsDataURL(input.files[0]);
+
+  } else {
+    removeUpload();
+  }
+}
+
+function removeUpload() {
+  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+  $('.file-upload-content').hide();
+  $('.image-upload-wrap').show();
+}
+$('.image-upload-wrap').bind('dragover', function () {
+        $('.image-upload-wrap').addClass('image-dropping');
+    });
+    $('.image-upload-wrap').bind('dragleave', function () {
+        $('.image-upload-wrap').removeClass('image-dropping');
+});
 </script>
 
 {% if scroll %}
