@@ -16,23 +16,21 @@
 </div>
 
 <div id="begin" class="bg2">
-	<div class="text-container">
+	<div class = "text-container">
 		<div class="left">
-			<h3 class = "lineheight"> 1. Upload an image </h3>
-			<p class = "lineheight"> (accepts .jpg, .jpeg, .png) </p>
-			<button class="button" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
-			<div class="file-upload">
-				<div class="image-upload-wrap">
-				  <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
-				  <div class="drag-text">
-					<h3>Drag and drop a file or select add Image</h3>
-				  </div>
+			<h3 class = "lineheight"> 1. Upload your image </h3>
+			<p class = "lineheight"> accepts .png, .jpg, .jpeg </p>
+			<button class="button" type="button" onclick="$('.hide-file-button').trigger( 'click' )"> Upload </button>
+			<div class="drag-box">
+				<input class="hide-file-button" type='file' onchange="readURL(this);" accept="image/*" />
+				<div class="drag-text">
+					<h3>Drag and drop a file or select "Upload"</h3>
 				</div>
-				<div class="file-upload-content">
-				  <img class="file-upload-image" src="#" alt="your image" />
-				  <div class="image-title-wrap">
-					<button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
-				  </div>
+			</div>
+			<div class="image-display">
+				<img class="image-format" src="#" alt="your image" />
+				<div class="format-remove-btn">
+					<button type="button" onclick="removeUpload()" class="remove-image">Remove Image </button>
 				</div>
 			</div>
 		</div>
@@ -53,15 +51,8 @@
 			<p class = "lineheight"> Press GO to classify!</p>
 			<!-- TODO: error handling (press GO without uploaded file) -->
 			<button class="button" type = "button" onclick = "classify()"> GO </button>
-			<div class = "crect">
-			{% if nofile %}
-			<p id = "nofile" style = "display: none;"> Please upload a file first </p>
-			{% endif %}
-			{% if classify %}
-			<!-- passes in model predictions and waits for GO button to be clicked to display -->
-			<!-- TODO: stylize output predictions -->
-			<p id = "classify" style = "display:none;"> Style: {{ classify }} </p>
-			{% endif %}</div>
+			<div class = "classify-display"> 
+			</div>
 			<!-- TODO: add new button that scrolls to "view similar images" and decide what scroll type to use-->
 		</div>
 	</div>
@@ -80,37 +71,35 @@ function classify() {
 }
 
 function readURL(input) {
-	if (input.files && input.files[0]) {
-
-    var reader = new FileReader();
-
-    reader.onload = function(e) {
-      $('.image-upload-wrap').hide();
-
-      $('.file-upload-image').attr('src', e.target.result);
-      $('.file-upload-content').show();
-
-      $('.image-title').html(input.files[0].name);
-    };
-
-    reader.readAsDataURL(input.files[0]);
-
-  } else {
-    removeUpload();
+    if (input.files && input.files[0]) {
+  
+      var reader = new FileReader();
+  
+      reader.onload = function(e) {
+        $('.drag-box').hide();
+  
+        $('.image-format').attr('src', e.target.result);
+        $('.image-display').show();
+      };
+  
+      reader.readAsDataURL(input.files[0]);
+  
+    } else {
+      removeUpload();
+    }
   }
-}
-
-function removeUpload() {
-  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
-  $('.file-upload-content').hide();
-  $('.image-upload-wrap').show();
-}
-$('.image-upload-wrap').bind('dragover', function () {
-        $('.image-upload-wrap').addClass('image-dropping');
-    });
-    $('.image-upload-wrap').bind('dragleave', function () {
-        $('.image-upload-wrap').removeClass('image-dropping');
-});
+  
+  function removeUpload() {
+    $('.hide-file-button').replaceWith($('.hide-file-button').clone());
+    $('.image-display').hide();
+    $('.drag-box').show();
+  }
+  $('.drag-box').bind('dragover', function () {
+          $('.drag-box').addClass('image-dropping');
+      });
+      $('.drag-box').bind('dragleave', function () {
+          $('.drag-box').removeClass('image-dropping');
+  });
 </script>
 
 {% if scroll %}

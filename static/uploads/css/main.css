@@ -48,9 +48,11 @@ body, html{
   line-height: 30%;
   font-size: 50px;
 }
+body {
+  font-family: sans-serif;
+  background-color: #eeeeee;
+}
 
-/** PAGE 2**/
-/* align items to second page*/
 .text-container{
   display: block;
   font-family: apple;
@@ -68,20 +70,10 @@ body, html{
   line-height: 30%;
 }
 
-/* left column (upload column) */
 .left {
   float: left;
-  width:33%;
-  text-align:center;
-  margin-left: 0px;
-}
-
-/* left column, center user uploaded image */
-.center {
-  display: block;
-  margin: auto;
-  position: relative;
-  margin-top: 0px;
+  width:30%;
+  text-align: center;
 }
 
 /* middle column (classifier column) */
@@ -98,79 +90,9 @@ body, html{
   text-align:center;
 }
 
-/* right column, for displaying classification text and rectangle */
-.crect {
-    position: relative;
-    margin:0;
-    margin-top: 40px;
-    margin-left: 30px;
-    width:370px;
-    height:300px;
-    background-color: cornsilk;
-    border:1px solid black;
-    font-size: 30px;
-    font-weight: normal;
-}
-
-/* to position classifier buttons */
-.button-container {
-  position: relative;
-  margin-top: 50px;
-}
-
-/* for uniform button styles */
-/* cbutton is a slight variation for classifier buttons */
-
-
-/* upload button hide default input text */
-input[type="file"] {
-  display: none;
-}
-
-/* upload button stylization */
-label {
-  height: 40px;
-  width: 100px; 
-  background-color: cornsilk;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  border: 1px solid black;
-  /*border-radius: 20px;*/
-  font-size : 15px;
-  font-family: apple;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-/* change color of all buttons when hovering over */
-.inputfile:focus + label,
-.inputfile + label:hover
- {
-    background-color: lightslategray;
-}
-
-.flashes {
-  position: relative;
-  margin-top: 50px;
-}
-
-.file-upload {
-  background-color: rgb(220, 228, 231);
-  width: 370px;
-  height: 300px;
-  margin: 0 auto;
-  margin-top: 10px;
-  margin-left: 10px;
-  padding: 20px;
-}
-
 .button {
-  width: 100px;
-  height: 40px;
+  width: 120px;
+  height:50px;
   margin: 0;
   color: #fff;
   background: #1FB264;
@@ -196,12 +118,18 @@ label {
   transition: all .2s ease;
 }
 
-.file-upload-content {
+/* to position classifier buttons */
+.button-container {
+  position: relative;
+  margin-top: 50px;
+}
+
+.image-display {
   display: none;
   text-align: center;
 }
 
-.file-upload-input {
+.hide-file-button {
   position: absolute;
   margin: 0;
   padding: 0;
@@ -212,19 +140,23 @@ label {
   cursor: pointer;
 }
 
-.image-upload-wrap {
+.drag-box {
   margin-top: 20px;
+  margin-left: 20px;
   border: 4px dashed #1FB264;
   position: relative;
+  background-color: white;
+  width: 370px;
+  height: 300px;
 }
 
 .image-dropping,
-.image-upload-wrap:hover {
+.drag-box:hover {
   background-color: #1FB264;
   border: 4px dashed #ffffff;
 }
 
-.image-title-wrap {
+.format-remove-btn {
   padding: 0 15px 15px 15px;
   color: #222;
 }
@@ -240,15 +172,15 @@ label {
   padding: 60px 0;
 }
 
-.file-upload-image {
+.image-format {
   max-height: 300px;
-  max-width: 370px;
+  max-width: 300px;
   margin: auto;
-  padding: 0px;
+  padding: 20px;
 }
 
 .remove-image {
-  width: 200px;
+  width: 120px;
   margin: 0;
   color: #fff;
   background: #cd4535;
@@ -272,4 +204,14 @@ label {
 .remove-image:active {
   border: 0;
   transition: all .2s ease;
+}
+
+.classify-display {
+  margin-top: 20px;
+  margin-left: 20px;
+  border: 4px dashed #1FB264;
+  position: relative;
+  background-color: white;
+  width: 370px;
+  height: 300px;
 }
