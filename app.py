@@ -35,16 +35,13 @@ def upload_file():
         if file and not allowed_file(file.filename):
             return render_template("upload.html", wrongext = 1, scroll = "display")
         if file:
-            #placeholder stuff
-            #image = Image.open(file)
-            #image.show()
             img_pil = PIL.Image.open(file)
             img_tensor = T.ToTensor()(img_pil)
             image = Image(img_tensor)
             return predict_single(image)
 
-#learn = load_learner(path='./models', file='trained_model.pkl')
-#classes = learn.data.classes
+learn = load_learner(path='./models', file='trained_model.pkl')
+classes = learn.data.classes
 
 def predict_single(img_file):
     'function to take image and return prediction'
