@@ -23,13 +23,16 @@ import matplotlib.pyplot as plt
 
 DATA_DIR = '/content/drive/My Drive/Junior/CS121/artData/small_25_100_data'
 
-# Displays random images of a certain style
-# style: the predicted style (does not have to be a string! Can come straight from predictor)
-# num_images: The number of images to get
-# Note: Right now, it displays using pyplot. 
-# The output can be easily changed to be whatever format we will need for front end
-def get_similar(style, num_images): 
-    class_folder = data_dir + "/" + str(style)
+''' Displays random images of a certain style or artist
+    This function assumes that images are organized based on the classifier,
+                which may change depending on front end integration
+    classifer: the predicted category (style or artist) 
+                (does not have to be a string! Can come straight from predictor)
+    num_images: The number of images to get
+    Note: Right now, it displays using pyplot. 
+    The output can be easily changed to be whatever format we will need for front end'''
+def get_similar(classifier, num_images): 
+    class_folder = DATA_DIR + "/" + str(classifier)
 
     sim_images = []
 
