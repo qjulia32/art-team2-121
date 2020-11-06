@@ -20,13 +20,13 @@
 		<div class="left">
 			<h3 class = "lineheight"> 1. Upload your image </h3>
 			<p class = "lineheight"> accepts .png, .jpg, .jpeg </p>
-			<button class="button" type="button" onclick="$('.hide-file-button').trigger( 'click' )"> Upload </button>
-			<div class="drag-box">
-				<input class="hide-file-button" type='file' onchange="readURL(this);" accept="image/*" />
-				<div class="drag-text">
-					<h3>Drag and drop a file or select "Upload"</h3>
-				</div>
-			</div>
+			<form method="post" action="/" enctype="multipart/form-data">
+				<!-- handles upload and display -->
+				<!-- TODO: error handling (incorrect extension or image size too large-->
+				<input type="file" name="file" id="file" class="inputfile" autofocus/>
+				<label for="file">Upload</label>
+				<button type="submit">Upload</button>
+			</form>
 			<div class="image-display">
 				<img class="image-format" src="#" alt="your image" />
 				<div class="format-remove-btn">
@@ -50,7 +50,7 @@
 			<h3 class = "lineheight"> 3. Classify </h3>	
 			<p class = "lineheight"> Press GO to classify!</p>
 			<!-- TODO: error handling (press GO without uploaded file) -->
-			<button class="button" type = "button" onclick = "classify()"> GO </button>
+			<button type = "submit" value = "submit" class="button"> GO </button>
 			<div class = "classify-display"> 
 			</div>
 			<!-- TODO: add new button that scrolls to "view similar images" and decide what scroll type to use-->
@@ -101,10 +101,3 @@ function readURL(input) {
           $('.drag-box').removeClass('image-dropping');
   });
 </script>
-
-{% if scroll %}
-<script>
-	// if an image has been uploaded by the user, render template starting on second page instead of first
-	document.getElementById('begin').scrollIntoView();
-</script>
-{% endif %}
