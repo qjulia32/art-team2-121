@@ -1,9 +1,6 @@
-import os
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
-from werkzeug.utils import secure_filename
 from PIL import Image
 from fastai.basic_train import load_learner
-from fastai.vision import open_image
 from fastai.vision import *
 import torchvision.transforms as T
 
@@ -46,8 +43,8 @@ def upload_file():
             image = Image(img_tensor)
             return predict_single(image)
 
-learn = load_learner(path='./models', file='trained_model.pkl')
-classes = learn.data.classes
+#learn = load_learner(path='./models', file='trained_model.pkl')
+#classes = learn.data.classes
 
 def predict_single(img_file):
     'function to take image and return prediction'
