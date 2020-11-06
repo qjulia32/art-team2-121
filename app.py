@@ -11,18 +11,6 @@ app = Flask(__name__)
 app.secret_key = "secret key"
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 #app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
-
-
-learn = load_learner(path='./models', file='trained_model.pkl')
-classes = learn.data.classes
-
-def predict_single(img_file):
-    'function to take image and return prediction'
-    prediction = learn.predict(img_file)
-    probs_list = prediction[2].numpy()
-    category = classes[prediction[1].item()]
-    print("Prediction: %s" % category)
-    return category
     
 
 @app.route("/")
@@ -57,3 +45,14 @@ def upload_file():
             img_tensor = T.ToTensor()(img_pil)
             image = Image(img_tensor)
             return predict_single(image)
+
+learn = load_learner(path='./models', file='trained_model.pkl')
+classes = learn.data.classes
+
+def predict_single(img_file):
+    'function to take image and return prediction'
+    prediction = learn.predict(img_file)
+    probs_list = prediction[2].numpy()
+    category = classes[prediction[1].item()]
+    print("Prediction: %s" % category)
+    return category
