@@ -72,7 +72,7 @@ body {
 
 .left {
   float: left;
-  width:30%;
+  width:33%;
   text-align: center;
 }
 
@@ -90,7 +90,8 @@ body {
   text-align:center;
 }
 
-.button {
+.button, .submit-btn {
+  font-family:apple;
   width: 120px;
   height:50px;
   margin: 0;
@@ -106,14 +107,14 @@ body {
   font-weight: 700;
 }
 
-.button:hover {
+.button:hover, .submit-btn:hover {
   background: #1AA059;
   color: #ffffff;
   transition: all .2s ease;
   cursor: pointer;
 }
 
-.button:active {
+.button:active, .submit-btn:active {
   border: 0;
   transition: all .2s ease;
 }
@@ -124,9 +125,15 @@ body {
   margin-top: 50px;
 }
 
-.image-display {
-  display: none;
+.display-box {
   text-align: center;
+  margin: auto;
+  padding: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  border: 4px dashed #1FB264;
+  position: relative;
+  background-color: white;
 }
 
 .hide-file-button {
@@ -163,21 +170,17 @@ body {
 
 .drag-text {
   text-align: center;
-  position: absolute;
 }
 
 .drag-text h3 {
   font-weight: 100;
   text-transform: uppercase;
   color: #15824B;
-  padding: 60px 0;
 }
 
 .image-format {
   max-height: 300px;
   max-width: 300px;
-  margin: auto;
-  padding: 20px;
 }
 
 .remove-image {
@@ -208,11 +211,23 @@ body {
 }
 
 .classify-display {
-  margin-top: 20px;
+  margin-top: 80px;
   margin-left: 20px;
   border: 4px dashed #1FB264;
   position: relative;
   background-color: white;
   width: 370px;
   height: 300px;
+}
+
+/* upload button hide default input text 
+input[type="file"] {
+  display: none;
+}
+*/
+
+.submit-btn {
+  position: absolute;
+  margin-left: 320px;
+  margin-top: -530px;
 }

@@ -29,16 +29,18 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        file = request.files["file"]
+        file = request.files["image"]
+        """
         if file.filename == '':
             return redirect(request.file)
         if file and not allowed_file(file.filename):
             return render_template("upload.html", wrongext = 1, scroll = "display")
-        if file:
-            img_pil = PIL.Image.open(file)
-            img_tensor = T.ToTensor()(img_pil)
-            image = Image(img_tensor)
-            return predict_single(image)
+        if file:"""
+        img_pil = PIL.Image.open(file)
+        img_tensor = T.ToTensor()(img_pil)
+        image = Image(img_tensor)
+        classify = predict_single(image)
+        return predict_single(image)
 
 learn = load_learner(path='./models', file='trained_model.pkl')
 classes = learn.data.classes

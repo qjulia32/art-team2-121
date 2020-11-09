@@ -15,89 +15,94 @@
 	</div>
 </div>
 
-<div id="begin" class="bg2">
-	<div class = "text-container">
-		<div class="left">
-			<h3 class = "lineheight"> 1. Upload your image </h3>
-			<p class = "lineheight"> accepts .png, .jpg, .jpeg </p>
-			<form method="post" action="/" enctype="multipart/form-data">
-				<!-- handles upload and display -->
-				<!-- TODO: error handling (incorrect extension or image size too large-->
-				<input type="file" name="file" id="file" class="inputfile" autofocus/>
-				<label for="file">Upload</label>
-				<button type="submit">Upload</button>
-			</form>
-			<div class="image-display">
-				<img class="image-format" src="#" alt="your image" />
-				<div class="format-remove-btn">
-					<button type="button" onclick="removeUpload()" class="remove-image">Remove Image </button>
-				</div>
-			</div>
-		</div>
-		<div class="middle">
-			<h3 class = "lineheight"> 2. Choose your classifier </h3>
-			<p class = "lineheight"> Hover over for more info</p>
-			<button class="button" type = "button" > More info </button> <br>
-			<div class="button-container">
-				<!-- placeholder buttons, no functionality yet-->
-				<!-- TODO: find out of to keep these button highlighted when pressing GO button-->
-				<button class="button" type = "button" > Artist </button> <br>
-				<button class="button" type = "button" > Style </button> <br>
-				<button class="button" type = "button" > Time </button> <br>
-			</div>
-		</div>
-		<div class="right">
-			<h3 class = "lineheight"> 3. Classify </h3>	
-			<p class = "lineheight"> Press GO to classify!</p>
-			<!-- TODO: error handling (press GO without uploaded file) -->
-			<button type = "submit" value = "submit" class="button"> GO </button>
-			<div class = "classify-display"> 
-			</div>
-			<!-- TODO: add new button that scrolls to "view similar images" and decide what scroll type to use-->
-		</div>
-	</div>
+<div class ="bg2">
+    <div class = "text-container">
+
+        <form id="image-upload-form" name="myForm" onsubmit="return uploadImage()" method="POST" onchange="display()">
+            <div class = "left" > 
+                <h3 class = "lineheight"> 1. Upload your image </h3>
+                <p class = "lineheight"> accepts .png, .jpg, .jpeg  <br> </p>
+                <label for="img" class="button">Upload</label>
+                <div class="drag-box" id = "drag-box">
+                    <input type="file" class="hide-file-button" id = "img" name="image" accept="image/*">
+                </div>
+                <div class = "display-box">
+                    <img class = "image-format" id="image"> </img>
+                </div>
+            </div>
+            <div class = "middle">
+                <h3 class = "lineheight"> 2. Choose your classifier </h3>
+                <p class = "lineheight"> Hover over for more info</p>
+                <div class="button-container">
+                    <p> Work in progress </p> 
+                </div>
+            </div>
+            <div class = "right"> 
+                <h3 class = "lineheight"> 3. Classify </h3>	
+                <p class = "lineheight"> Press GO to classify!</p>
+                <button type="submit" class = "button">Go!</button>
+                <div class = "display-box"> 
+                    <div id = "code"></div>
+                    <div id="error"></div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-</html>
-</body>
+
 
 <script>
-function bottum() {
-	document.getElementById('begin').scrollIntoView({behavior: "smooth"});
-};
+const form = document.getElementById("image-upload-form");
+const url = "/";
 
-function classify() {
-	document.getElementById('classify').style.display = '';
-	document.getElementById('nofile').style.display = '';
+function display() {
+    document.getElementById('drag-box').style.display = "none"
+    const files = document.querySelector('[type=file]').files;
+    const formData = new FormData();
+    if (files.length == 0) {
+        document.getElementById('code').innerHTML = 'No Image Uploaded, please try again!';
+        return false;
+    }
+
+    var image = document.getElementById('image');
+    image.src = URL.createObjectURL(files[0]);
 }
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
-  
-      var reader = new FileReader();
-  
-      reader.onload = function(e) {
-        $('.drag-box').hide();
-  
-        $('.image-format').attr('src', e.target.result);
-        $('.image-display').show();
-      };
-  
-      reader.readAsDataURL(input.files[0]);
-  
-    } else {
-      removeUpload();
+function uploadImage() {
+    document.getElementById('code').innerHTML = 'Loading...';
+    // Add the file to the image
+    const files = document.querySelector('[type=file]').files;
+    const formData = new FormData();
+    if (files.length == 0) {
+        document.getElementById('code').innerHTML = 'No Image Uploaded, please try again!';
+        return false;
     }
-  }
-  
-  function removeUpload() {
-    $('.hide-file-button').replaceWith($('.hide-file-button').clone());
-    $('.image-display').hide();
-    $('.drag-box').show();
-  }
-  $('.drag-box').bind('dragover', function () {
-          $('.drag-box').addClass('image-dropping');
-      });
-      $('.drag-box').bind('dragleave', function () {
-          $('.drag-box').removeClass('image-dropping');
-  });
+
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        formData.append('image', file);
+    }
+    fetch(
+        url,
+        {
+            method: 'POST',
+            body: formData,
+        }
+    ).then((response) => {
+        if (response.status == 200) {
+            document.getElementById('error').innerHTML = "";
+            return response.text().then((response_text) => {
+                document.getElementById('code').innerHTML = response_text;
+            });
+        } else {
+            document.getElementById('code').innerHTML = "";
+            return response.text().then((response_text) => {
+                console.log(response_text);
+                document.getElementById('error').innerHTML = "Error: " + response_text;
+            });
+        }
+    })
+    ;        
+    return false;
+}
 </script>
