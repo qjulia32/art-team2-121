@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="../static/uploads/css/main.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="upload.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="upload.js"></script>
 </head>
 <body>
 <!-- introduction page -->
@@ -10,102 +11,54 @@
 	<div class = "text-container1"> 
 		<h1 class = bgh1>Art Classifier</h1>
 		<p class = bgp> Upload an art image to determine the style, time period, <br>or author using this simple classifier! (accepts .png, .jpg, .jpeg)</p> 
-		<button class=button type = "button" onclick = "bottum()"> Begin </button> <!-- autoscrolls down to second page-->
+        <!-- autoscrolls down to second page-->
+        <button class=button type = "button" onclick = "bottum()"> Begin </button> 
 		<!-- TODO: add an about us button that either redirects to a new page or has a hover feature -->
 	</div>
 </div>
 
-<div class ="bg2">
-    <div class = "text-container">
+<!-- Second page -->
+<div id = "begin" class ="bg2">
+    <div class = "text-container2">
 
         <form id="image-upload-form" name="myForm" onsubmit="return uploadImage()" method="POST" onchange="display()">
             <div class = "left" > 
                 <h3 class = "lineheight"> 1. Upload your image </h3>
-                <p class = "lineheight"> accepts .png, .jpg, .jpeg  <br> </p>
+                <p class = "lineheight" style="margin-bottom: 30px;"> accepts .png, .jpg, .jpeg </p>
+                <!-- Upload button and draggable user input, accepts images on default -->
                 <label for="img" class="button">Upload</label>
-                <div class="drag-box" id = "drag-box">
+                <div class="drag-box" id = "drag-box" style="margin-top: 30px;">
+                    <div class="drag-text">
+                        <h3>Drag and drop a file or press Upload</h3>
+                    </div>
                     <input type="file" class="hide-file-button" id = "img" name="image" accept="image/*">
                 </div>
-                <div class = "display-box">
-                    <img class = "image-format" id="image"> </img>
+                <!-- Automatically shows image in a box -->
+                <div id = "show-image" class = "show-image">
+                    <div id = "display-box" class = "display-box" style = "margin-top: 30px;">
+                        <img class = "image-format" id="image"> </img>
+                        <!-- TODO: add remove button -->
+                    </div>
                 </div>
             </div>
+            <!-- TODO: add checkboxes for classifier choices -->
             <div class = "middle">
                 <h3 class = "lineheight"> 2. Choose your classifier </h3>
                 <p class = "lineheight"> Hover over for more info</p>
                 <div class="button-container">
-                    <p> Work in progress </p> 
+                    <p style = "font-size: larger;"> Work in progress </p> 
                 </div>
             </div>
+            <!-- On pressing GO button, classifies uploaded image or displays an error -->
             <div class = "right"> 
                 <h3 class = "lineheight"> 3. Classify </h3>	
                 <p class = "lineheight"> Press GO to classify!</p>
                 <button type="submit" class = "button">Go!</button>
                 <div class = "display-box"> 
-                    <div id = "code"></div>
+                    <div id = "code"> </div>
                     <div id="error"></div>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-
-<script>
-const form = document.getElementById("image-upload-form");
-const url = "/";
-function bottum() {
-	document.getElementById('begin').scrollIntoView({behavior: "smooth"});
-};
-
-function display() {
-    document.getElementById('drag-box').style.display = "none"
-    const files = document.querySelector('[type=file]').files;
-    const formData = new FormData();
-    if (files.length == 0) {
-        document.getElementById('code').innerHTML = 'No Image Uploaded, please try again!';
-        return false;
-    }
-
-    var image = document.getElementById('image');
-    image.src = URL.createObjectURL(files[0]);
-}
-
-function uploadImage() {
-    document.getElementById('code').innerHTML = 'Loading...';
-    // Add the file to the image
-    const files = document.querySelector('[type=file]').files;
-    const formData = new FormData();
-    if (files.length == 0) {
-        document.getElementById('code').innerHTML = 'No Image Uploaded, please try again!';
-        return false;
-    }
-
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i];
-        formData.append('image', file);
-    }
-    fetch(
-        url,
-        {
-            method: 'POST',
-            body: formData,
-        }
-    ).then((response) => {
-        if (response.status == 200) {
-            document.getElementById('error').innerHTML = "";
-            return response.text().then((response_text) => {
-                document.getElementById('code').innerHTML = response_text;
-            });
-        } else {
-            document.getElementById('code').innerHTML = "";
-            return response.text().then((response_text) => {
-                console.log(response_text);
-                document.getElementById('error').innerHTML = "Error: " + response_text;
-            });
-        }
-    })
-    ;        
-    return false;
-}
-</script>
