@@ -27,7 +27,7 @@ def upload_file():
     if request.method == 'POST':
         file = request.files["image"]
         if file and not allowed_file(file.filename):
-            return "Please upload a .jpg, .jpeg or .png"
+            return "not available for this extension. Please upload a .jpg, .jpeg or .png"
         else:
             # convert pillow image to fastai recognizable image
             img_pil = PIL.Image.open(file)

@@ -8,6 +8,8 @@ function bottum() {
 function display() {
     document.getElementById('drag-box').style.display = "none"
     document.getElementById('show-image').style.display = "block"
+    document.getElementById('error').innerHTML = ""
+    document.getElementById('code').innerHTML = " "
     const files = document.querySelector('[type=file]').files;
     const formData = new FormData();
     var image = document.getElementById('image');
@@ -20,7 +22,8 @@ function uploadImage() {
     const files = document.querySelector('[type=file]').files;
     const formData = new FormData();
     if (files.length == 0) {
-        document.getElementById('code').innerHTML = 'Please upload an image first (see step 1)';
+        document.getElementById('error').innerHTML = 'Please upload an image first (see step 1)';
+        document.getElementById('code').innerHTML = "";
         return false;
     }
 
