@@ -2,13 +2,16 @@ import numpy as np
 import pandas as pd
 import os, os.path, zipfile, shutil
 
+
+# min number of images per style for style to be included
+PIC_NUMBER = 50 # pics you want per style that passes the threshold
+
 # TODO: change these
-THRESHOLD = 35 # min number of images per style for style to be included
-PIC_NUMBER = 20 # pics you want per style that passes the threshold
+THRESHOLD = 50
 
 # TODO: choose your category
 categories = ["artist", "title", "style", "date", "genre"]
-category = "artist"
+category = "style"
 
 # Goal: find category with THRESHOLD+ images and put PIC_NUMBER of them in their respective folders
 # assumptions: train_1.zip, train_info.csv, and all_data_info.csv already downloaded/unzipped
@@ -85,7 +88,7 @@ for cat, count in catCount.items():
         print("working on", cat)
 
         # folder_path = "INSERT DIRECTORY OF YOUR CLONED GIT REPO HERE, IN A different DATA FOLDER OF SOME SORT and end w/ backslash -> /"+style
-        folder_path = "C:/Users/qjuli/Downloads/Harvey Mudd/Fall 2020/software_dev/art-team2-121/small_"+str(PIC_NUMBER)+"_"+str(THRESHOLD)+"_"+category+"_data/"+cat
+        folder_path = "C:/Users/qjuli/Downloads/Harvey Mudd/Fall 2020/software_dev/data/small_"+str(PIC_NUMBER)+"_"+str(THRESHOLD)+"_"+category+"_data/"+cat
         print(folder_path)
 
         if not os.path.exists(folder_path):
