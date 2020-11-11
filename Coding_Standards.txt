@@ -1,0 +1,14 @@
+﻿Code Style:
+* Everyone download PyLint on vscode to have the same style
+* Comments and good variable names!! 
+   * snake_case!
+* If we think something we wrote is iffy or is not sustainable (quick fix, etc), write about it
+* Generally use CS70 coding and commenting guidelines
+
+
+Git protocols:
+* Make a new branch for working on new stuff
+* Descriptive git commit messages
+* We can make PRs from our working branch and merge directly to master
+* Require approval for PRs from subteam (frontend vs backend)
+   * Just ask for approval on FB chat

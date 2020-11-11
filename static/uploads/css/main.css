@@ -1,0 +1,186 @@
+/* imported nicer looking font*/
+@font-face{
+  font-family: apple;
+  src: url('Apple Chancery Regular/Apple Chancery Regular.ttf');
+}
+
+body, html{
+  height: 100%;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 575;
+}
+
+/** BACKGROUND IMAGES**/
+/* background image 1 */
+.bg {
+  background-image: url('still-life.jpg');
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* same bg image, but less opaque*/
+.bg2 {
+  background-image: url('still-life2.png');
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/**FIRST PAGE**/
+/* center all text on first page*/
+.text-container1 {
+  font-family: apple;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  text-align: center;
+}
+/* make header larger*/
+.bgh1{
+  margin-top: 150px;
+  line-height: 30%;
+  font-size: 50px;
+}
+
+/** PAGE 2**/
+/* align items to second page*/
+.text-container{
+  display: block;
+  font-family: apple;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90%;
+  margin: 0;
+  margin-top: 610px;
+}
+
+/* for second page text spacing */
+.lineheight {
+  line-height: 30%;
+}
+
+/* left column (upload column) */
+.left {
+  float: left;
+  width:33%;
+  text-align:center;
+  margin-left: 0px;
+}
+
+/* left column, center user uploaded image */
+.center {
+  display: block;
+  margin: auto;
+  position: relative;
+  margin-top: 0px;
+}
+
+/* middle column (classifier column) */
+.middle {
+  float: left;
+  width:33%;
+  text-align:center;
+}
+
+/* right column (classification column) */
+.right {
+  float: left;
+  width:33%;
+  text-align:center;
+}
+
+/* right column, for displaying classification text and rectangle */
+.crect {
+  position: relative;
+  margin:0;
+  margin-top: 40px;
+  margin-left: 30px;
+  width:370px;
+  height:300px;
+  background-color: cornsilk;
+  border:1px solid black;
+  font-size: 30px;
+  font-weight: normal;
+}
+
+/* to position classifier buttons */
+.button-container {
+  position: relative;
+  margin-top: 50px;
+}
+
+/* for uniform button styles */
+/* cbutton is a slight variation for classifier buttons */
+.button, .cbutton {
+  display: inline-block;
+  height: 40px;
+  width: 100px; 
+  background-color: cornsilk;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  /*border-radius: 20px;*/
+  font-size : 15px;
+  font-family: apple;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* classifier buttons */
+.cbutton {
+  width: 150px;
+  margin-bottom: 40px;
+  background-color: rgb(171, 221, 171);
+}
+
+/* upload button hide default input text */
+input[type="file"] {
+  display: none;
+}
+
+/* upload button stylization */
+label {
+  height: 40px;
+  width: 100px; 
+  background-color: cornsilk;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  border: 1px solid black;
+  /*border-radius: 20px;*/
+  font-size : 15px;
+  font-family: apple;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* change color of all buttons when hovering over */
+.inputfile:focus + label,
+.inputfile + label:hover,
+.button:focus,.button:hover,
+.cbutton:focus, .cbutton:hover,
+.cbutton:active + .cbutton:active
+ {
+    background-color: lightslategray;
+}
+
+.flashes {
+  position: relative;
+  margin-top: 50px;
+}
+
+
+
+

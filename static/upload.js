@@ -17,7 +17,7 @@ function display() {
 }
 
 /* On clicking GO button, return the response from app.py using fetch */
-function uploadImage() {
+function upload_image() {
     document.getElementById('code').innerHTML = 'Loading...';
     const files = document.querySelector('[type=file]').files;
     const formData = new FormData();
