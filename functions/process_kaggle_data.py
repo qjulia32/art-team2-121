@@ -1,6 +1,10 @@
+"""This script imports training data and processes it."""
 import numpy as np
 import pandas as pd
-import os, os.path, zipfile, shutil
+import os
+import os.path
+import zipfile
+import shutil
 
 # first install numpy and pandas on your computer
 
@@ -18,25 +22,25 @@ with zipfile.ZipFile(train_1_path, 'r') as zip_ref:
 
 # import train info along with removing art without any style
 csv_path = "INSERT THE PATH TO THE train_info.csv FILE HERE INCLUDING NAME train_info.csv"
-pbn = pd.read_csv(csv_path)
-pbn = pbn.fillna(np.nan)
-pbn.drop(labels = ["title","genre","date","artist"], axis=1, inplace=True)
-pbn = pbn.dropna(how='any',axis=0)
+PBN = pd.read_csv(csv_path)
+PBN = PBN.fillna(np.nan)
+PBN.drop(labels=["title", "genre", "date", "artist"], axis=1, inplace=True)
+PBN = PBN.dropna(how='any', axis=0)
 
 # Goal: basically put all the images of the same style into a folder
 
 stylesNumDict = {}
 
-for index, row in pbn.iterrows():
+for index, row in PBN.iterrows():
     if row["style"] in stylesNumDict:
         stylesNumDict[row["style"]] += [row["filename"]]
     else:
         stylesNumDict[row["style"]] = [row["filename"]]
 
 
-path =  "PATH TO UNZIPPED TRAIN_1 Data and end w/ backslash -> /"
+path = "PATH TO UNZIPPED TRAIN_1 Data and end w/ backslash -> /"
 for style in stylesNumDict.keys():
-    folder_path = "INSERT DIRECTORY OF YOUR CLONED GIT REPO HERE IN A DATA FOLDER OF SOME SORT and end w/ backslash -> /"+style
+    folder_path = "INSERT DIRECTORY OF YOUR CLONED GIT REPO HERE IN A DATA FOLDER OF SOME SORT and end w/ backslash -> /" + style
 
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
