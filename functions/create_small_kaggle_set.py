@@ -18,8 +18,10 @@ category = "artist"
 # around in order to get 50 images, as you'll see below
 # NOTE: with THRESHOLD = 50 and PIC_Number = 50: there's 36/133 total styles w/ 1,800 total pictures
 
-# NOTE: all_data_info.csv has actual artist names (it's hased in the train_info.csv b/c the whole point is to guess it)
-# so, we will cross reference our given pictures by the category title and whether it's in train_1.csv
+# NOTE: all_data_info.csv has actual artist names
+# (it's hased in the train_info.csv b/c the whole point is to guess it)
+# so, we will cross reference our given pictures by the category title
+# and whether it's in train_1.csv
 # download it here: https://www.kaggle.com/c/painter-by-numbers/data?select=all_data_info.csv
 
 # train_csv_path = "INSERT THE PATH TO THE train_info.csv FILE HERE INCLUDING NAME train_info.csv"
@@ -84,7 +86,8 @@ for cat, count in catCount.items():
         folder += 1
         print("working on", cat)
 
-        # folder_path = "INSERT DIRECTORY OF YOUR CLONED GIT REPO HERE, IN A different DATA FOLDER OF SOME SORT and end w/ backslash -> /"+style
+        # folder_path = "INSERT DIRECTORY OF YOUR CLONED GIT REPO HERE,
+        # IN A different DATA FOLDER OF SOME SORT and end w/ backslash -> /"+style
         folder_path = "C:/Users/qjuli/Downloads/Harvey Mudd/Fall 2020/software_dev/art-team2-121/small_"+str(PIC_NUMBER)+"_"+str(THRESHOLD)+"_"+category+"_data/"+cat
         print(folder_path)
 

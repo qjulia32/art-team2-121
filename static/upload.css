@@ -1,0 +1,167 @@
+/* imported nicer looking font*/
+@font-face{
+  font-family: apple;
+  src: url('style/Apple Chancery Regular/Apple Chancery Regular.ttf');
+}
+
+body, html{
+  height: 100%;
+  margin: 0;
+  font-size: larger;
+  font-family: apple;
+}
+
+p, h1, h3 {
+  margin: 0;
+}
+
+/** BACKGROUND IMAGES**/
+/* background image 1 */
+.bg {
+  background-image: url('style/still-life.jpg');
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* same bg image, but less opaque*/
+.bg2 {
+  background-image: url('style/still-life2.png');
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/**Aligning to appropriate background image**/
+.text-container1 {
+  position: absolute;
+}
+
+.text-container1, .text-container2 {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  top: 0;
+  text-align: center;
+}
+
+/** SECOND PAGE **/
+/* for second page text spacing */
+
+/* left column (upload and display */
+.left {
+  float: left;
+  width:33%;
+  text-align: center;
+}
+
+/* middle column (classifier column) */
+.middle {
+  float: left;
+  width:33%;
+  text-align:center;
+}
+
+/* right column (classification column) */
+.right {
+  float: left;
+  width:33%;
+  text-align:center;
+}
+
+/** BUTTON STYLIZATION **/
+/* to position classifier buttons (WIP) */
+.button-container {
+  position: relative;
+  margin-top: 100px;
+}
+
+
+.button {
+  font-family:apple;
+  text-align: center;
+  width: 120px;
+  height:50px;
+  margin: 0;
+  color: #fff;
+  background: rgb(108, 204, 121);
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #15824B;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: large;
+}
+
+.button:hover {
+  background: #1AA059;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.button:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+/* hide default upload button */
+.hide-file-button {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/** UPLOAD AND DISPLAY **/
+.show-image {
+  display: none;
+}
+
+.image-format {
+  max-height: 300px;
+  max-width: 300px;
+}
+
+.drag-box, .display-box {
+  text-align: center;
+  margin: auto;
+  padding: 10px;
+  margin-top: 30px;
+  border: 4px dashed rgb(108, 204, 121);
+  position: relative;
+  background-color: white;
+  width: 330px;
+  height: 300px;
+}
+
+.display-box {
+  border: 4px solid rgb(108, 204, 121);
+}
+
+/* allows draggin and dropping an image */
+.image-dropping,
+.drag-box:hover {
+  background-color: rgb(108, 204, 121);;
+  border: 4px dashed #ffffff;
+}
+
+.drag-text {
+  text-align: center;
+  position: absolute;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #15824B;
+}

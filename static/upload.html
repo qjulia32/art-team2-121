@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="upload.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="upload.js"></script>
+</head>
+<body>
+<!-- introduction page -->
+<div class="bg">
+	<div class = "text-container1"> 
+		<h1 style="margin-top: 5%">Art Classifier</h1>
+		<p> Upload an art image to determine the style, time
+            <br> period, and/or author using this simple classifier!
+            <br> Press BEGIN to start classifying! 
+        </p> 
+        <!-- autoscrolls down to second page-->
+        <button class=button type = "button" onclick = "bottum()"> BEGIN </button> 
+		<!-- TODO: add an about us button that either redirects to a new page or has a hover feature -->
+	</div>
+</div>
+
+<!-- Second page -->
+<div id = "begin" class ="bg2">
+    <div class = "text-container2">
+        <form id="image-upload-form" name="myForm" onsubmit="return uploadImage()" method="POST" onchange="display()">
+            <div class = "left" > 
+                <h3> 1. Upload your image </h3>
+                <p style="margin-bottom: 10px;"> accepts .png, .jpg, .jpeg </p>
+                <!-- Upload button and draggable user input, accepts images on default -->
+                <label for="img" class="button">UPLOAD</label>
+                <div class="drag-box" style="margin-top: 40px" id = "drag-box">
+                    <div class="drag-text">
+                        <h3>Drag and drop a file or press Upload</h3>
+                    </div>
+                    <input type="file" class="hide-file-button" id = "img" name="image" accept="image/*">
+                </div>
+                <!-- Automatically shows image in a box -->
+                <div id = "show-image" class = "show-image">
+                    <div id = "display-box" class = "display-box">
+                        <img class = "image-format" id="image"> </img>
+                        <!-- TODO: add remove button -->
+                    </div>
+                </div>
+            </div>
+            <!-- TODO: add checkboxes for classifier choices -->
+            <div class = "middle">
+                <h3> 2. Choose your classifier </h3>
+                <p> Hover over for more info</p>
+                <div class="button-container">
+                    <p style = "font-size: larger;"> Work in progress </p> 
+                </div>
+            </div>
+            <!-- On pressing GO button, classifies uploaded image or displays an error -->
+            <div class = "right"> 
+                <h3> 3. Classify </h3>	
+                <p> Press GO to classify!</p>
+                <button type="submit" class = "button">GO!</button>
+                <div class = "display-box"> 
+                    <div id = "code"> </div>
+                    <div id="error"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
