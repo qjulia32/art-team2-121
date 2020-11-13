@@ -18,7 +18,7 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 app.secret_key = "secret key"
 
 
-#back end model, outputs prediction of given image 
+#back end model, outputs prediction of given image
 learn = load_learner(path='./models', file='trained_model.pkl')
 classes = learn.data.classes
 
@@ -31,7 +31,6 @@ def predict_single(img_file):
     return category
         #'category': classes[prediction[1].item()],
         #'probs': {c: round(float(probs_list[i]), 5) for (i, c) in enumerate(classes)}
-    
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -39,7 +38,7 @@ def allowed_file(filename):
 
 @app.route('/')
 def upload_form():
-	return render_template('upload.html')
+    return render_template('upload.html')
 
 # for uploading an image
 @app.route('/', methods=['GET', 'POST'])
@@ -48,7 +47,8 @@ def upload_file():
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
-        # sphagetti code alert: this renders but really should be redirect, but there are issues with scrolling with redirect
+        # sphagetti code alert: this renders but really should be redirect,
+        # but there are issues with scrolling with redirect
         if file.filename == '':
             return redirect(request.file)
         if file and not allowed_file(file.filename):
@@ -61,6 +61,7 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             full_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             classification = predict_single(full_path)
-            return render_template("upload.html", user_image = full_path, classify = classification, scroll = "display")
+            return render_template("upload.html", user_image = full_path,
+                classify = classification, scroll = "display")
 
 #need error handler for large pictures
