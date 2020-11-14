@@ -5,7 +5,8 @@ import random
 # https://pygithub.readthedocs.io/en/latest/index.html
 from github import Github
 
-# Github authentication token (Avalon's account):
+# Github authentication token
+# CHANGE TO YOUR ACCOUNT (this one doesn't exist anymore)
 TOKEN = "dd8a98a0849f985fc6e40d0d486e11446d8ccb49"
 # id for art-team2-121 repo:
 ID = 298410561
