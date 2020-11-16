@@ -1,3 +1,6 @@
+"""This script runs an app that will determine the style,
+time period, or artist associated with the input image."""
+
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from PIL import Image
 from fastai.basic_train import load_learner
@@ -8,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = "secret key"
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 #app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
-    
+
 
 @app.route("/")
 @app.route("/upload")
@@ -24,12 +27,14 @@ def about():
 
 # check if correct extension
 def allowed_file(filename):
+    """This function determines if the file is the correct extension."""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # upload and classify image
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
+    """This function is used to upload and classify the input image."""
     if request.method == 'POST':
         file = request.files["image"]
         if file and not allowed_file(file.filename):
@@ -53,12 +58,18 @@ def predict_style(img_file):
     #NEEDSWORK: print top 3 matches and percentages
     return category
 
+<<<<<<< HEAD
     
 def predict_artist(img_file):
     'function to take image and return prediction'
     artist = load_learner(path='./models', file='artist.pkl')
     classes = artist.data.classes
     prediction = artist.predict(img_file)
+=======
+def predict_single(img_file):
+    """This function takes an image and returns a prediction."""
+    prediction = learn.predict(img_file)
+>>>>>>> 0d8105140b419e180d6fd6307e192ecd5b101d71
     probs_list = prediction[2].numpy()
     category = classes[prediction[1].item()]
     #NEEDSWORK: print top 3 matches and percentages
