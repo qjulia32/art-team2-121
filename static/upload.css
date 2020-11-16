@@ -8,11 +8,14 @@ body, html{
   height: 100%;
   margin: 0;
   font-size: larger;
-  font-family: apple;
 }
 
 p, h1, h3 {
   margin: 0;
+}
+
+h3 {
+  margin-top: 30px;
 }
 
 /** BACKGROUND IMAGES**/
@@ -45,6 +48,16 @@ p, h1, h3 {
   margin: 0;
   top: 0;
   text-align: center;
+}
+
+.link {
+  border: 2px solid #1AA059;
+  background-color:  rgb(108, 204, 121);
+  color: white;
+  margin-left: 10px;
+  padding: 5px;
+  vertical-align: super;
+  font-size: small;
 }
 
 /** SECOND PAGE **/
@@ -80,7 +93,6 @@ p, h1, h3 {
 
 
 .button {
-  font-family:apple;
   text-align: center;
   width: 120px;
   height:50px;

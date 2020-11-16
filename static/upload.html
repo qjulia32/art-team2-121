@@ -10,20 +10,21 @@
 <div class="bg">
 	<div class = "text-container1"> 
 		<h1 style="margin-top: 5%">Art Classifier</h1>
-		<p> Upload an art image to determine the style, time
+		<p style = "margin-bottom: 10px"> Upload an art image to determine the style, time
             <br> period, and/or author using this simple classifier!
-            <br> Press BEGIN to start classifying! 
-        </p> 
+            <br> Press BEGIN to start classifying, or "?" for more help! 
+        </p>
         <!-- autoscrolls down to second page-->
-        <button class=button type = "button" onclick = "bottum()"> BEGIN </button> 
+        <button class=button type = "button" onclick = "bottum()"> BEGIN </button>
+        <a class = "link" href="/static/about.html"> ? </a>
 		<!-- TODO: add an about us button that either redirects to a new page or has a hover feature -->
-	</div>
+    </div>
 </div>
 
 <!-- Second page -->
 <div id = "begin" class ="bg2">
     <div class = "text-container2">
-        <form id="image-upload-form" name="myForm" onsubmit="return uploadImage()" method="POST" onchange="display()">
+        <form id="image-upload-form" name="myForm" action = "/" method="POST" onchange="display()" onsubmit="return upload_image()">
             <div class = "left" > 
                 <h3> 1. Upload your image </h3>
                 <p style="margin-bottom: 10px;"> accepts .png, .jpg, .jpeg </p>
@@ -43,13 +44,12 @@
                     </div>
                 </div>
             </div>
-            <!-- TODO: add checkboxes for classifier choices -->
+            <!-- TODO: make checkboxes work -->
             <div class = "middle">
                 <h3> 2. Choose your classifier </h3>
-                <p> Hover over for more info</p>
-                <div class="button-container">
-                    <p style = "font-size: larger;"> Work in progress </p> 
-                </div>
+                <p style="margin-bottom: 10px;"> Choose one or more <br> of the following </p>
+                <input id = "style" type="checkbox" name = "style" value = "style" style = "margin-top: 40px;"> Style <br>
+                <input id = "style" type="checkbox" name = "artist" value = "artist"> Artist
             </div>
             <!-- On pressing GO button, classifies uploaded image or displays an error -->
             <div class = "right"> 

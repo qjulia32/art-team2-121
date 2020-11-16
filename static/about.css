@@ -1,0 +1,23 @@
+.bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(180, 202, 214);
+}
+
+.text-container {
+    text-align: center;
+    float: left;
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    background-color: white;
+    position: relative;
+}
+
+.left-col {
+    float: left;
+    width: 20%;
+    margin-top: 80px;
+    text-align: center;
+}
