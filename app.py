@@ -50,7 +50,7 @@ def upload_file():
             image = Image(img_tensor)
             classify = predict_style(image)
             print(classify)
-            return "</br> Top match: {} ({}%) </br> Second match: {} ({}%)".format(classify[0], classify[1], classify[2], classify[3])
+            return "</br> Top match: {} ({}%) </br> Second match: {} ({}%) </br> Third match: {} ({}%)".format(classify[0], classify[1], classify[2], classify[3], classify[4], classify[5])
 
 
 def predict_style(img_file):
@@ -58,29 +58,29 @@ def predict_style(img_file):
     style = load_learner(path='./models', file='style_25_100.pkl')
     classes = style.data.classes #list of possible art periods
     prediction = style.predict(img_file)
-    probs_list = prediction[2].numpy()
-    #find second best match
-    mx=max(probs_list[0],probs_list[1]) 
-    secondmax=min(probs_list[0],probs_list[1]) 
-    i = 0
-    for i in range(2, len(probs_list)): 
-        if probs_list[i]>mx: 
-            secondmax=mx
-            index = i - 1
-            mx=probs_list[i] 
-        elif probs_list[i]>secondmax and mx != probs_list[i]: 
-            secondmax=probs_list[i]
-            index = i
+    array = np.array(prediction)
+    probs_list = array[2].numpy()
+    #find second largest
+    secondmax = 0
+    thirdmax = 0
+    for i in range(len(probs_list)):
+        if probs_list[i]>secondmax and probs_list[i] != max(probs_list):
+            secondmax = probs_list[i]
+            secondi = i
+        if probs_list[i] > thirdmax and probs_list[i] != secondmax and probs_list[i] != max(probs_list):
+            thirdmax = probs_list[i]
+            thirdi = i
     category = classes[prediction[1].item()]
-    category2 = classes[index]
+    category2 = classes[secondi]
+    category3 = classes[thirdi]
     probs = str(round(max(probs_list) * 100, 2))
-    probs2 = str(round(probs_list[index] * 100, 2))
-    #print(probs_list)
-    #Return top 2 matches and percentages
-    return category, probs, category2, probs2
+    probs2 = str(round(probs_list[secondi] * 100, 2))
+    probs3 = str(round(probs_list[thirdi] * 100, 2))
+    #Return top 2 matches and percentage
+    return category, probs, category2, probs2, category3, probs3
 
 
-#not used yet
+    
 def predict_artist(img_file):
     'function to take image and return prediction'
     artist = load_learner(path='./models', file='artist.pkl')
@@ -88,4 +88,5 @@ def predict_artist(img_file):
     prediction = artist.predict(img_file)
     probs_list = prediction[2].numpy()
     category = classes[prediction[1].item()]
+    #NEEDSWORK: print top 3 matches and percentages
     return category

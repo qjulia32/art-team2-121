@@ -18,7 +18,7 @@ function display() {
 
 /* On clicking GO button, return the response from app.py using fetch */
 function upload_image() {
-    document.getElementById('code').innerHTML = 'Loading...';
+    document.getElementById('code').innerHTML = 'Loading... (this may take a while)';
     const files = document.querySelector('[type=file]').files;
     const formData = new FormData();
     if (files.length == 0) {
@@ -38,7 +38,13 @@ function upload_image() {
             body: formData,
         }
     ).then((response) => {
-        if (response.status == 200) {
+        if (response.status == 200 && document.getElementById("style").checked == false) {
+            document.getElementById('code').innerHTML = ""
+            document.getElementById('error').innerHTML = "Error: please choose a classfier first (step 2)"
+            return
+        }
+
+        else if (response.status == 200 && document.getElementById("style").checked) {
             // successful upload
             document.getElementById('error').innerHTML = "";
             return response.text().then((response_text) => {
