@@ -42,7 +42,7 @@ function upload_image() {
             // successful upload
             document.getElementById('error').innerHTML = "";
             return response.text().then((response_text) => {
-                document.getElementById('code').innerHTML ="Style: " + response_text;
+                document.getElementById('code').innerHTML ="STYLE" + response_text;
             });
         } 
         else {
