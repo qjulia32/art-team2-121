@@ -27,6 +27,8 @@ def get_similar(classifier, num_images):
         if img_name not in sim_images:
             sim_images.append(img_name)
 
+    return sim_images
+
     # TODO: Save/display images
     # Access the image with repo.get_contents(img_name)
     # Will return a JSON with the format described here (content is a file):
