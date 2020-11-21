@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="../static/upload.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="../static/upload.js"></script>
+</head>
+<body>
+<!-- introduction page -->
+<div class="bg">
+	<div class = "text-container1"> 
+		<h1 style="margin-top: 10%">Art Classifier</h1>
+		<p style = "margin-bottom: 10px"> Upload an art image to determine the style, time
+            <br> period, and/or author using this simple classifier!
+            <br> Press BEGIN to start classifying, or "?" for more help. 
+        </p>
+        <!-- autoscrolls down to second page-->
+        <button class=button type = "button" onclick = "bottum()"> BEGIN </button>
+        <a class = "link" href="{{url_for('about')}}"> ? </a>
+		<!-- TODO: add an about us button that either redirects to a new page or has a hover feature -->
+    </div>
+</div>
+
+<!-- Second page -->
+<div id = "begin" class ="bg2">
+    <div class = "text-container2">
+        <form id="image-upload-form" enctype="multipart/form-data" name="myForm" action = "/" method="POST" onchange="display()" onsubmit="load()">
+            <div class = "left" > 
+                <h3> 1. Upload your image </h3>
+                <p style="margin-bottom: 10px;"> only accepts .jpg/.jpeg </p>
+                <!-- Upload button and draggable user input, accepts images on default -->
+                <label for="img" class="button">UPLOAD</label>
+                <div class="drag-box" style="margin-top: 40px" id = "drag-box">
+                    <div class="drag-text">
+                        <h3>Drag and drop a file or press Upload</h3>
+                    </div>
+                    <input type="file" class="hide-file-button" id = "img" name="image" accept="image/*">
+                </div>
+                <!-- Automatically shows image in a box -->
+                <div id = "show-image" class = "show-image">
+                    <div id = "display-box" class = "display-box">
+                        <img class = "image-format" id="image"> </img>
+                        <!-- TODO: add remove button (maybe) -->
+                    </div>
+                </div>
+            </div>
+            <!-- TODO: make checkboxes work!!! Currently, the form doesn't retain any 
+                values in the multidict with the return statement in the onsubmit -->
+            <div class = "middle">
+                <h3> 2. Choose your classifier </h3>
+                <p style="margin-bottom: 10px;"> Check one or more <br> of the following </p>
+                <div class = "classifier">
+                    <input id = "style" type="checkbox" name = "style" value = "style"> Style <br>
+                    <p style = "font-size: medium;">Art movement of the piece </p> <br>
+                </div>
+                <div class="classifier">
+                    <input id = "style" type="checkbox" name = "artist" value = "artist"> Artist <br>
+                    <p style = "font-size: medium;"> Creator of the piece </p>  <br>
+                </div>
+                <div class="classifier">
+                    <input id = "style" type="checkbox" name = "time" value = "time"> Time Period <br>
+                    <p style = "font-size: medium;"> When the piece was painted </p>  <br>
+                </div>
+                <div class="classifier">
+                    <input id = "style" type="checkbox" name = "similar" value = "similar"> Similar Images <br>
+                    <p style = "font-size: medium;">View similar images to your uploaded image  </p> <br>
+                </div>
+            </div>
+            <!-- On pressing GO button, classifies uploaded image or displays an error -->
+            <div class = "right"> 
+                <h3> 3. Classify </h3>	
+                <p> Press GO to classify!</p>
+                <button type="submit" class = "button">GO!</button>
+                <div class = "display-box" id = "display">
+                    <div id="message"> 
+                    {%if message%}
+                        {{message}}
+                    {%endif%}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if scroll %}
+<script>
+	// if an image has been uploaded by the user, render template starting on second page instead of first
+	document.addEventListener("DOMContentLoaded", function() {
+	document.location.hash = '#{{ scroll }}';
+	});
+</script>
+{% endif %}
