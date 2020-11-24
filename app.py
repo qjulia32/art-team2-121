@@ -42,8 +42,8 @@ def upload_file():
         else:
             # convert pillow image to fastai recognizable image
             img_pil = PIL.Image.open(file)
-            if img_pil.size[0] * img_pil.size[1] > 12000000: #45MB
-              return render_template("upload.html", message = "Image exceeds 45MB, please upload a smaller image", scroll = "display")
+            if img_pil.size[0] > img_pil.size[1] > 6000000: 
+              return render_template("upload.html", message = "Image too large, please upload an image with dimensions of less than 2560 x 2560 pixels", scroll = "display")
             else:
               img_tensor = T.ToTensor()(img_pil)
               image = Image(img_tensor)
