@@ -1,4 +1,5 @@
 const url = "/";
+
 function bottum() {
 	document.getElementById('begin').scrollIntoView({behavior: "smooth"});
 };
@@ -8,8 +9,7 @@ function bottum() {
 function display() {
     document.getElementById('drag-box').style.display = "none"
     document.getElementById('show-image').style.display = "block"
-    document.getElementById('error').innerHTML = ""
-    document.getElementById('code').innerHTML = " "
+    document.getElementById('message').innerHTML = " "
     const files = document.querySelector('[type=file]').files;
     const formData = new FormData();
     var image = document.getElementById('image');

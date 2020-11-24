@@ -25,7 +25,6 @@ def about():
 
 # check if correct extension
 def allowed_file(filename):
-    """This function determines if the file is the correct extension."""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -43,49 +42,52 @@ def upload_file():
         else:
             # convert pillow image to fastai recognizable image
             img_pil = PIL.Image.open(file)
-            img_tensor = T.ToTensor()(img_pil)
-            image = Image(img_tensor)
-            match = ['Top match: ', 'Second match: ', 'Third match: '] # match text with proper result
-            if 'style' in request.form and 'artist' and 'time' not in request.form:
-                style = predict(image, "style")[0]
-                styleprob = predict(image, "style")[1] 
-                return render_template("classifications.html", style = style, styleprob = styleprob, match = match)
-            elif 'artist' in request.form and 'style' and 'time' not in request.form:
-                artist  = predict(image, "artist")[0]
-                artistprob = predict(image, "artist")[1]
-                return render_template("classifications.html", artist= artist, artistprob = artistprob, match = match)
-            elif 'time' in request.form and 'artist' not in request.form and 'style' not in request.form:
-                firststyle = predict(image, "style")[0][0]
-                period = style_to_time(firststyle)
-                return render_template("classifications.html", period = period, match = match)
-            elif 'style' in request.form and 'artist' in request.form and 'time' not in request.form:
-                style = predict(image, "style")[0]
-                styleprob = predict(image, "style")[1]                
-                artist  = predict(image, "artist")[0]
-                artistprob = predict(image, "artist")[1]
-                return render_template("classifications.html", style = style, styleprob = styleprob, artist= artist, artistprob = artistprob, match = match)
-            elif 'style' in request.form and 'time' in request.form and 'artist' not in request.form:
-                style = predict(image, "style")[0]
-                styleprob = predict(image, "style")[1]                
-                firststyle = style[0]
-                period = style_to_time(firststyle)
-                return render_template("classifications.html", style = style, styleprob = styleprob, period = period, match = match)
-            elif 'artist' in request.form and 'time' in request.form and 'style' not in request.form:
-                firststyle = predict(image, "style")[0][0] 
-                period = style_to_time(firststyle)
-                artist  = predict(image, "artist")[0]
-                artistprob = predict(image, "artist")[1]
-                return render_template("classifications.html", artist = artist, artistprob = artistprob, period = period, match = match)
-            elif 'artist' and 'time' and 'style' in request.form:
-                style = predict(image, "style")[0]
-                styleprob = predict(image, "style")[1]                
-                artist = predict(image, "artist")[0]
-                artistprob = predict(image, "artist")[1]
-                firststyle = style[0]
-                period = style_to_time(firststyle)
-                return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, match = match)
-            else: 
-                return render_template("upload.html", message = "Please choose a classifier after uploading (see step 2)", scroll = "display")
+            if img_pil.size[0] > img_pil.size[1] > 6000000: 
+              return render_template("upload.html", message = "Image too large, please upload an image with dimensions of less than 2560 x 2560 pixels", scroll = "display")
+            else:
+              img_tensor = T.ToTensor()(img_pil)
+              image = Image(img_tensor)
+              match = ['Top match: ', 'Second match: ', 'Third match: '] # match text with proper result
+              if 'style' in request.form and 'artist' not in request.form and 'time' not in request.form:
+                  style = predict(image, "style")[0]
+                  styleprob = predict(image, "style")[1] 
+                  return render_template("classifications.html", style = style, styleprob = styleprob, match = match)
+              elif 'artist' in request.form and 'style' not in request.form and 'time' not in request.form:
+                  artist  = predict(image, "artist")[0]
+                  artistprob = predict(image, "artist")[1]
+                  return render_template("classifications.html", artist= artist, artistprob = artistprob, match = match)
+              elif 'time' in request.form and 'artist' not in request.form and 'style' not in request.form:
+                  firststyle = predict(image, "style")[0][0]
+                  period = style_to_time(firststyle)
+                  return render_template("classifications.html", period = period, match = match)
+              elif 'style' in request.form and 'artist' in request.form and 'time' not in request.form:
+                  style = predict(image, "style")[0]
+                  styleprob = predict(image, "style")[1]                
+                  artist  = predict(image, "artist")[0]
+                  artistprob = predict(image, "artist")[1]
+                  return render_template("classifications.html", style = style, styleprob = styleprob, artist= artist, artistprob = artistprob, match = match)
+              elif 'style' in request.form and 'time' in request.form and 'artist' not in request.form:
+                  style = predict(image, "style")[0]
+                  styleprob = predict(image, "style")[1]                
+                  firststyle = style[0]
+                  period = style_to_time(firststyle)
+                  return render_template("classifications.html", style = style, styleprob = styleprob, period = period, match = match)
+              elif 'artist' in request.form and 'time' in request.form and 'style' not in request.form:
+                  firststyle = predict(image, "style")[0][0] 
+                  period = style_to_time(firststyle)
+                  artist  = predict(image, "artist")[0]
+                  artistprob = predict(image, "artist")[1]
+                  return render_template("classifications.html", artist = artist, artistprob = artistprob, period = period, match = match)
+              elif 'artist' and 'time' and 'style' in request.form:
+                  style = predict(image, "style")[0]
+                  styleprob = predict(image, "style")[1]                
+                  artist = predict(image, "artist")[0]
+                  artistprob = predict(image, "artist")[1]
+                  firststyle = style[0]
+                  period = style_to_time(firststyle)
+                  return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, match = match)
+              else: 
+                  return render_template("upload.html", message = "Please choose a classifier after uploading (see step 2)", scroll = "display")
 
 
 #predict style or artist on uploaded image
@@ -94,10 +96,9 @@ def predict(img_file, classifier):
     Returns: prediction of the top three matches for either style or artist, depending on the 
     classifier checked"""
     if classifier == 'style':
-        pathname = 'style_25_100.pkl'
+        pathname = 'style.pkl'
     else: 
-        pathname = 'artist.pkl'
-    'function to take image and return prediction'
+        pathname = 'artist-stage-6.pkl'
     style = load_learner(path='./models', file=pathname)
     classes = style.data.classes #list of possible art periods
     prediction = style.predict(img_file)
@@ -122,6 +123,7 @@ def predict(img_file, classifier):
     #Return top 2 matches and percentage
     return [category, category2, category3], [probs, probs2, probs3]
 
+#find time period based on style
 def style_to_time(prediction):
   if prediction == "Abstract":
     return "1950s-present"
