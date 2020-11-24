@@ -16,7 +16,7 @@ ID = 298410561
 g = Github()
 repo = g.get_repo(ID)
 
-from functions.similar_images.py import get_similar, get_similar_artist
+#from functions.similar_images.py import get_similar, get_similar_artist
 
 app = Flask(__name__)
 app.secret_key = "secret key"
@@ -296,17 +296,47 @@ def style_to_time(prediction):
     return "An error has occurred. Please try again."
 
 
-### ignore
 
-# images_style = get_similar(style, 6)
-# images_artist = get_similar_artist(artist, 6)
+def get_similar(classifier, num_images):
+    ''' 
+        FOR STYLE
+        Displays random images of a certain style or artist from our Github repo
+        This function assumes that images are organized based on the classifier
+        classifer: the predicted category (style or artist) 
+                    (does not have to be a string! Can come straight from predictor)
+        num_images: The number of images to get'''
 
+    contents = repo.get_contents("data/" + str(classifier))
 
-# def display_similar_style():
-#   """
-#   This function uses similar_images.py in the backend branch
-#   """
-# def display_similar_artist():
-#   """
-#   This function uses similar_images.py in the backend branch
-#   """
+    sim_images = []     # paths of chosen images
+
+    while len(sim_images) < num_images:
+        img_name = random.choice(contents).path
+        if img_name not in sim_images:
+            sim_images.append(img_name)
+    
+    style = [] # array of json objs
+    for i in range(len(sim_images)):
+        style.append(repo.get_contents(sim_images[i]).download_url)
+        
+    
+    return style
+
+def get_similar_artist(classifier, num_images):
+    '''
+        artist version of get_similar 
+    '''
+    contents = repo.get_contents("data/artist" + str(classifier))
+
+    sim_images = []     # paths of chosen images
+
+    while len(sim_images) < num_images:
+        img_name = random.choice(contents).path
+        if img_name not in sim_images:
+            sim_images.append(img_name)
+
+    artist = [] # array of json objs
+    for i in range(len(sim_images)):
+        artist.append(repo.get_contents(sim_images[i]).download_url)
+    
+    return artist
