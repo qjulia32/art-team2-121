@@ -13,7 +13,7 @@ repo = g.get_repo(ID)
 
 def get_similar(classifier, num_images):
     ''' 
-        FOR ARTIST
+        FOR STYLE
         Displays random images of a certain style or artist from our Github repo
         This function assumes that images are organized based on the classifier
         classifer: the predicted category (style or artist) 
@@ -31,13 +31,14 @@ def get_similar(classifier, num_images):
     
     style = [] # array of json objs
     for i in range(len(sim_images)):
-        style += repo.get_contents(sim_images[i])
+        style.append(repo.get_contents(sim_images[i]).download_url)
+        
     
     return style
 
 def get_similar_artist(classifier, num_images):
     '''
-        style version of get_similar 
+        artist version of get_similar 
     '''
     contents = repo.get_contents("data/artist" + str(classifier))
 
@@ -50,7 +51,7 @@ def get_similar_artist(classifier, num_images):
 
     artist = [] # array of json objs
     for i in range(len(sim_images)):
-        artist = repo.get_contents(sim_images[i])
+        artist.append(repo.get_contents(sim_images[i]).download_url)
     
     return artist
 
@@ -69,4 +70,4 @@ def get_similar_artist(classifier, num_images):
 #     for i in range(len(images)):
 #         artist = repo.get_contents(images[i], ref=NotSet)
 
-# get_similar("Zen", 3)
+print(get_similar("Zen", 3))
