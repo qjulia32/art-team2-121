@@ -8,11 +8,14 @@ body, html{
   height: 100%;
   margin: 0;
   font-size: larger;
-  font-family: apple;
 }
 
 p, h1, h3 {
   margin: 0;
+}
+
+h3 {
+  margin-top: 30px;
 }
 
 /** BACKGROUND IMAGES**/
@@ -36,15 +39,28 @@ p, h1, h3 {
 
 /**Aligning to appropriate background image**/
 .text-container1 {
-  position: absolute;
-}
-
-.text-container1, .text-container2 {
+  position: absolute;  
   width: 100%;
   height: 100%;
   margin: 0;
   top: 0;
   text-align: center;
+}
+
+.top {
+  width: 100%;
+  height: 25%;
+  margin: 0;
+}
+
+.link {
+  border: 2px solid #1AA059;
+  background-color:  rgb(108, 204, 121);
+  color: white;
+  margin-left: 10px;
+  padding: 5px;
+  vertical-align: super;
+  font-size: small;
 }
 
 /** SECOND PAGE **/
@@ -80,7 +96,6 @@ p, h1, h3 {
 
 
 .button {
-  font-family:apple;
   text-align: center;
   width: 120px;
   height:50px;
@@ -141,11 +156,12 @@ p, h1, h3 {
   position: relative;
   background-color: white;
   width: 330px;
-  height: 300px;
+  height: 310px;
 }
 
 .display-box {
   border: 4px solid rgb(108, 204, 121);
+  margin-top: 25px;
 }
 
 /* allows draggin and dropping an image */
@@ -158,10 +174,21 @@ p, h1, h3 {
 .drag-text {
   text-align: center;
   position: absolute;
+  margin-top: 30px;
 }
 
 .drag-text h3 {
   font-weight: 100;
   text-transform: uppercase;
   color: #15824B;
+}
+
+.classifier {
+  background-color: #ffffff;
+  border: 1px solid black;
+  opacity: 0.8;
+  width: 50%;
+  margin: auto;
+  text-align: left;
+  margin-top: 8px;
 }

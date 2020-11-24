@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../static/classifications.css">
+</head>
+
+<body>
+<div class = "bg">
+    <div class = "text-container">
+        <h1> CLASSIFICATION RESULTS </h1> 
+        {% if style %}
+        <p>
+            <h3> STYLE </h3>
+            {%for item in style%}
+                {{match[loop.index0]}} {{item}} ({{styleprob[loop.index0]}}%) <br>
+            {% endfor %}
+        </p>
+        <br>
+        {% endif %}
+
+
+        {% if artist %}
+        <p>
+            <h3> ARTIST </h3>
+            {%for item in artist%}
+            {{match[loop.index0]}} {{item}} ({{artistprob[loop.index0]}}%) <br>
+            {% endfor %}
+        </p>
+        <br>
+        {% endif %}
+
+        {% if period %}
+        <p>
+            <h3> TIME PERIOD </h3>
+            {{period}}
+        </p>
+        <br>
+        {% endif %}
+
+        <h3>SIMILAR IMAGES:</h3>
+
+        <!-- LOOP THROUGH images_style and images_artist from app.py -->
+        {% if images_artist %}
+            <h4>Artist:</h4>
+            {%for item in similar%}
+            <img src="{{item}%}">
+            {% endfor %}
+        {% endif %}
+
+        {% if images_style %}
+            <h4>Style and Time Period:</h4>
+            {%for item in images_style%}
+            <img src="{{item}%}">
+            {% endfor %}
+        {% endif %}
+
+        <h3> Optional Feedback Form </h3> 
+        <p> Help us improve our website!</p>
+        <a href = "https://forms.gle/jP1zWAmCBwRqvxVH9" target = "_blank"> Feedback Form
+
+    </div>
+</div>
+
+</body>
