@@ -58,18 +58,12 @@ def predict_style(img_file):
     #NEEDSWORK: print top 3 matches and percentages
     return category
 
-<<<<<<< HEAD
     
 def predict_artist(img_file):
     'function to take image and return prediction'
     artist = load_learner(path='./models', file='artist.pkl')
     classes = artist.data.classes
     prediction = artist.predict(img_file)
-=======
-def predict_single(img_file):
-    """This function takes an image and returns a prediction."""
-    prediction = learn.predict(img_file)
->>>>>>> 0d8105140b419e180d6fd6307e192ecd5b101d71
     probs_list = prediction[2].numpy()
     category = classes[prediction[1].item()]
     #NEEDSWORK: print top 3 matches and percentages
