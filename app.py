@@ -1,6 +1,3 @@
-"""This script runs an app that will determine the style,
-time period, or artist associated with the input image."""
-
 from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
 from PIL import Image
 from fastai.basic_train import load_learner
@@ -49,7 +46,6 @@ def upload_file():
        On success, return a new template with appropriate classifications"""
     if request.method == 'POST':
         file = request.files["image"]
-
         if file.filename == '':
             return render_template("upload.html", message = "Please upload an image first (see step 1)", scroll = "display")
         elif file and not allowed_file(file.filename):
