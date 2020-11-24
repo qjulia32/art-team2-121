@@ -7,6 +7,10 @@ from fastai.basic_train import load_learner
 from fastai.vision import *
 import torchvision.transforms as T
 
+###########################################################
+### this works on the master, because it can access backend
+from functions.similar_images.py import get_similar, get_similar_artist
+
 app = Flask(__name__)
 app.secret_key = "secret key"
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg'}
@@ -86,6 +90,9 @@ def upload_file():
                   firststyle = style[0]
                   period = style_to_time(firststyle)
                   return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, match = match)
+              ####
+              ####
+              # this is where similar images func should go, in a new elif
               else: 
                   return render_template("upload.html", message = "Please choose a classifier after uploading (see step 2)", scroll = "display")
 
@@ -233,3 +240,27 @@ def style_to_time(prediction):
     return "1615-1868"
   else:
     return "An error has occurred. Please try again."
+
+
+######################################################################
+## This method should get the array of paths of the images.
+## However, I think they should be in the above function
+
+images_style = get_similar(style, 6)
+images_artist = get_similar_artist(artist, 6)
+
+
+
+
+
+
+### ignore
+
+# def display_similar_style():
+#   """
+#   This function uses similar_images.py in the backend branch
+#   """
+# def display_similar_artist():
+#   """
+#   This function uses similar_images.py in the backend branch
+#   """
