@@ -40,17 +40,19 @@
         <h3>SIMILAR IMAGES:</h3>
 
         <!-- LOOP THROUGH images_style and images_artist from app.py -->
-
-            <!-- <h4>Artist:</h4>
-            {%for item in images_artist%}
+        {% if images_artist %}
+            <h4>Artist:</h4>
+            {%for item in similar%}
             <img src="{{item}%}">
             {% endfor %}
-        
+        {% endif %}
+
+        {% if images_style %}
             <h4>Style and Time Period:</h4>
             {%for item in images_style%}
             <img src="{{item}%}">
-            {% endfor %} -->
-        
+            {% endfor %}
+        {% endif %}
 
         <h3> Optional Feedback Form </h3> 
         <p> Help us improve our website!</p>

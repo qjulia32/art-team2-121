@@ -7,8 +7,18 @@ from fastai.basic_train import load_learner
 from fastai.vision import *
 import torchvision.transforms as T
 
-###########################################################
-### this works on the master, because it can access backend
+import random
+
+# a python wrapper for the Github API (pip install PyGithub)
+# https://pygithub.readthedocs.io/en/latest/index.html
+from github import Github
+
+# id for art-team2-121 repo:
+ID = 298410561
+
+g = Github()
+repo = g.get_repo(ID)
+
 from functions.similar_images.py import get_similar, get_similar_artist
 
 app = Flask(__name__)
@@ -39,6 +49,7 @@ def upload_file():
        On success, return a new template with appropriate classifications"""
     if request.method == 'POST':
         file = request.files["image"]
+
         if file.filename == '':
             return render_template("upload.html", message = "Please upload an image first (see step 1)", scroll = "display")
         elif file and not allowed_file(file.filename):
@@ -54,7 +65,7 @@ def upload_file():
               match = ['Top match: ', 'Second match: ', 'Third match: '] # match text with proper result
               if 'style' in request.form and 'artist' not in request.form and 'time' not in request.form:
                   style = predict(image, "style")[0]
-                  styleprob = predict(image, "style")[1] 
+                  styleprob = predict(image, "style")[1]
                   return render_template("classifications.html", style = style, styleprob = styleprob, match = match)
               elif 'artist' in request.form and 'style' not in request.form and 'time' not in request.form:
                   artist  = predict(image, "artist")[0]
@@ -90,9 +101,56 @@ def upload_file():
                   firststyle = style[0]
                   period = style_to_time(firststyle)
                   return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, match = match)
-              ####
-              ####
-              # this is where similar images func should go, in a new elif
+######### new elifs ##########################
+              elif 'style' in request.form and 'similar' in request.form and 'artist' not in request.form and 'time' not in request.form:
+                  style = predict(image, "style")[0]
+                  styleprob = predict(image, "style")[1]
+                  images_style = get_similar(style, 6)
+                  
+                  return render_template("classifications.html", style = style, styleprob = styleprob, match = match, images_style = images_style)
+              elif 'artist' in request.form and 'similar' in request.form and 'style' not in request.form and 'time' not in request.form:
+                  artist  = predict(image, "artist")[0]
+                  artistprob = predict(image, "artist")[1]
+                  images_artist = get_similar_artist(artist, 6)
+                  return render_template("classifications.html", artist= artist, artistprob = artistprob, match = match, images_artist = images_artist)
+              elif 'time' in request.form and 'similar' in request.form and 'artist' not in request.form and 'style' not in request.form:
+                  firststyle = predict(image, "style")[0][0]
+                  period = style_to_time(firststyle)
+                  images_style = get_similar(style, 6)
+                  return render_template("classifications.html", period = period, match = match, images_style = images_style)
+              elif 'style' in request.form and 'artist' in request.form and 'similar' in request.form and 'time' not in request.form:
+                  style = predict(image, "style")[0]
+                  styleprob = predict(image, "style")[1]                
+                  artist  = predict(image, "artist")[0]
+                  artistprob = predict(image, "artist")[1]
+                  images_style = get_similar(style, 6)
+                  images_artist = get_similar_artist(artist, 6)
+                  return render_template("classifications.html", style = style, styleprob = styleprob, artist= artist, artistprob = artistprob, match = match, images_style = images_style, images_artist = images_artist)
+              elif 'style' in request.form and 'time' in request.form and 'artist' not in request.form and 'similar' in request.form:
+                  style = predict(image, "style")[0]
+                  styleprob = predict(image, "style")[1]                
+                  firststyle = style[0]
+                  period = style_to_time(firststyle)
+                  images_style = get_similar(style, 6)
+                  return render_template("classifications.html", style = style, styleprob = styleprob, period = period, match = match, images_style = images_style)
+              elif 'artist' in request.form and 'time' in request.form and 'similar' in request.form and 'style' not in request.form:
+                  firststyle = predict(image, "style")[0][0] 
+                  period = style_to_time(firststyle)
+                  artist  = predict(image, "artist")[0]
+                  artistprob = predict(image, "artist")[1]
+                  images_style = get_similar(style, 6)
+                  images_artist = get_similar_artist(artist, 6)
+                  return render_template("classifications.html", artist = artist, artistprob = artistprob, period = period, match = match, images_style = images_style, images_artist = images_artist)
+              elif 'artist' and 'time' and 'style' and 'similar' in request.form:
+                  style = predict(image, "style")[0]
+                  styleprob = predict(image, "style")[1]                
+                  artist = predict(image, "artist")[0]
+                  artistprob = predict(image, "artist")[1]
+                  firststyle = style[0]
+                  period = style_to_time(firststyle)
+                  images_style = get_similar(style, 6)
+                  images_artist = get_similar_artist(artist, 6)
+                  return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, match = match, images_style = images_style, images_artist = images_artist)
               else: 
                   return render_template("upload.html", message = "Please choose a classifier after uploading (see step 2)", scroll = "display")
 
@@ -242,19 +300,11 @@ def style_to_time(prediction):
     return "An error has occurred. Please try again."
 
 
-######################################################################
-## This method should get the array of paths of the images.
-## However, I think they should be in the above function
-
-images_style = get_similar(style, 6)
-images_artist = get_similar_artist(artist, 6)
-
-
-
-
-
-
 ### ignore
+
+# images_style = get_similar(style, 6)
+# images_artist = get_similar_artist(artist, 6)
+
 
 # def display_similar_style():
 #   """
