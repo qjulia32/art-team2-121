@@ -36,28 +36,6 @@
         </p>
         <br>
         {% endif %}
-
-
-        <!-- LOOP THROUGH images_style and images_artist from app.py -->
-        {% if images_artist %}
-        <h3>SIMILAR IMAGES:</h3>
-            <h4>Artist:</h4>
-            {%for item in similar%}
-                <img src="{{item}}">
-            {% endfor %}
-        {% endif %}
-
-        {% if images_style %}
-            <h4>Style and Time Period:</h4>
-            {%for item in images_style%}
-            <img src="{{item}}">
-            {% endfor %}
-        {% endif %}
-
-        <h3> Optional Feedback Form </h3> 
-        <p> Help us improve our website!</p>
-        <a href = "https://forms.gle/jP1zWAmCBwRqvxVH9" target = "_blank"> Feedback Form
-
     </div>
 </div>
 
