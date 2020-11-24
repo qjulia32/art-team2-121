@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 fastai==1.0.61
 Flask
 gunicorn
@@ -7,10 +6,4 @@ Pillow==7.2.0
 torch ==1.6.0+cpu
 -f https://download.pytorch.org/whl/torch_stable.html 
 torchvision==0.7.0+cpu
-=======
-Flask
-gunicorn
-flask_cors
-werkzeug
-Pillow==7.2.0
->>>>>>> b6159bace40d18b86f65f29d89bb2f04e6afc75f
+pygithub
