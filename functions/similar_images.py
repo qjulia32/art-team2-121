@@ -55,19 +55,4 @@ def get_similar_artist(classifier, num_images):
     
     return artist
 
-
-    # TODO: Save/display images
-    # Access the image with repo.get_contents(img_name)
-    # Will return a JSON with the format described here (content is a file):
-    # https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#contents
-
-# def display_similar(images):
-#     """
-#     input: similar images function
-#     outputs a JSON object for the image
-#     """
-#     # get_contents(path, ref=NotSet)
-#     for i in range(len(images)):
-#         artist = repo.get_contents(images[i], ref=NotSet)
-
-print(get_similar("Zen", 3))
+# print(get_similar("Zen", 3))
