@@ -17,7 +17,6 @@
         <!-- autoscrolls down to second page-->
         <button class=button type = "button" onclick = "bottum()"> BEGIN </button>
         <a class = "link" href="{{url_for('about')}}"> ? </a>
-		<!-- TODO: add an about us button that either redirects to a new page or has a hover feature -->
     </div>
 </div>
 
@@ -25,6 +24,8 @@
 <div id = "begin" class ="bg2">
     <div class = "text-container2">
         <form id="image-upload-form" enctype="multipart/form-data" name="myForm" action = "/" method="POST" onchange="display()" onsubmit="load()">
+            
+            <!-- Upload and display functionality -->
             <div class = "left" > 
                 <h3> 1. Upload your image </h3>
                 <p style="margin-bottom: 10px;"> only accepts .jpg/.jpeg</p>
@@ -36,13 +37,15 @@
                     </div>
                     <input type="file" class="hide-file-button" id = "img" name="image" accept="image/*">
                 </div>
-                <!-- Automatically shows image in a box -->
+                <!-- Automatically shows image in a box on upload-->
                 <div id = "show-image" class = "show-image">
                     <div id = "display-box" class = "display-box">
                         <img class = "image-format" id="image"> </img>
                     </div>
                 </div>
             </div>
+
+            <!-- Classifier checkbox options -->
             <div class = "middle">
                 <h3> 2. Choose your classifier </h3>
                 <p style="margin-bottom: 10px;"> Check one or more <br> of the following </p>
@@ -63,6 +66,7 @@
                     <p style = "font-size: medium;">View similar images to your uploaded image  </p> <br>
                 </div>
             </div>
+
             <!-- On pressing GO button, classifies uploaded image or displays an error -->
             <div class = "right"> 
                 <h3> 3. Classify </h3>	
@@ -82,7 +86,7 @@
 
 {% if scroll %}
 <script>
-	// if an image has been uploaded by the user, render template starting on second page instead of first
+	// for error messages, render template starting on second page instead of first
 	document.addEventListener("DOMContentLoaded", function() {
 	document.location.hash = '#{{ scroll }}';
 	});

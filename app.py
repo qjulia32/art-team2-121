@@ -7,7 +7,6 @@ import torchvision.transforms as T
 app = Flask(__name__)
 app.secret_key = "secret key"
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg'}
-#app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 
 # https://pygithub.readthedocs.io/en/latest/index.html
 from github import Github
@@ -17,7 +16,6 @@ ID = 298410561
 
 g = Github()
 repo = g.get_repo(ID)
-
 
 #main page
 @app.route("/")
@@ -34,7 +32,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# upload and classify image
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     """On failure, return the current template with an error message
@@ -46,13 +44,13 @@ def upload_file():
         elif file and not allowed_file(file.filename):
             return render_template("upload.html", message = "Unsupported file extension: please upload a .jpg/.jpeg", scroll = "display")
         else:
-            # convert pillow image to fastai recognizable image
             img_pil = PIL.Image.open(file)
+            # limit image size
             if img_pil.size[0] > img_pil.size[1] > 6000000: 
               return render_template("upload.html", message = "Image too large, please upload an image with dimensions of less than 2560 x 2560 pixels", scroll = "display")
             else:
               img_tensor = T.ToTensor()(img_pil)
-              image = Image(img_tensor)
+              image = Image(img_tensor) # convert to fastai recognizable object
               match = ['Top match: ', 'Second match: ', 'Third match: '] # match text with proper result
               style = ''
               styleprob = ''
@@ -84,6 +82,7 @@ def upload_file():
               return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, images_style = images_style, images_artist = images_artist, match = match)
 
 @app.errorhandler(500)
+ """ return error when github api reaches request limit """
 def internal_error(e):
     return render_template("upload.html", message = "The Similar Images functionality has recieved too many requests! Please check back later. Style, Artist, and Time Period should still work.", scroll = "display"), 500         
 
@@ -165,8 +164,8 @@ def get_similar_artist(classifier, num_images):
     return artist
 
 
-#find time period based on style
 def style_to_time(prediction):
+  """find time period based on style"""
   if prediction == "Abstract":
     return "1950s-present"
   elif prediction == "Academicism":
