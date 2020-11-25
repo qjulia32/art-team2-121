@@ -9,6 +9,15 @@ app.secret_key = "secret key"
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg'}
 #app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 
+# https://pygithub.readthedocs.io/en/latest/index.html
+from github import Github
+
+# id for art-team2-121 repo:
+ID = 298410561
+
+g = Github()
+repo = g.get_repo(ID)
+
 
 #main page
 @app.route("/")
@@ -45,51 +54,38 @@ def upload_file():
               img_tensor = T.ToTensor()(img_pil)
               image = Image(img_tensor)
               match = ['Top match: ', 'Second match: ', 'Third match: '] # match text with proper result
-              style = predict(image, "style")[0]
-              artist = predict(image, "artist")
-              print(style)
-              print(artist)
-              if 'style' in request.form and 'artist' not in request.form and 'time' not in request.form:
+              style = ''
+              styleprob = ''
+              artist = ''
+              artistprob = ''
+              period = ''
+              similar = ''
+              images_style = ''
+              images_artists = ''
+              intermediate = ''
+              if 'style' in request.form:
                   style = predict(image, "style")[0]
                   styleprob = predict(image, "style")[1] 
-                  return render_template("classifications.html", style = style, styleprob = styleprob, match = match)
-              elif 'artist' in request.form and 'style' not in request.form and 'time' not in request.form:
+              if 'artist' in request.form:
                   artist  = predict(image, "artist")[0]
                   artistprob = predict(image, "artist")[1]
-                  return render_template("classifications.html", artist= artist, artistprob = artistprob, match = match)
-              elif 'time' in request.form and 'artist' not in request.form and 'style' not in request.form:
+              if 'time' in request.form:
                   firststyle = predict(image, "style")[0][0]
                   period = style_to_time(firststyle)
-                  return render_template("classifications.html", period = period, match = match)
-              elif 'style' in request.form and 'artist' in request.form and 'time' not in request.form:
-                  style = predict(image, "style")[0]
-                  styleprob = predict(image, "style")[1]                
-                  artist  = predict(image, "artist")[0]
-                  artistprob = predict(image, "artist")[1]
-                  return render_template("classifications.html", style = style, styleprob = styleprob, artist= artist, artistprob = artistprob, match = match)
-              elif 'style' in request.form and 'time' in request.form and 'artist' not in request.form:
-                  style = predict(image, "style")[0]
-                  styleprob = predict(image, "style")[1]                
-                  firststyle = style[0]
-                  period = style_to_time(firststyle)
-                  return render_template("classifications.html", style = style, styleprob = styleprob, period = period, match = match)
-              elif 'artist' in request.form and 'time' in request.form and 'style' not in request.form:
-                  firststyle = predict(image, "style")[0][0] 
-                  period = style_to_time(firststyle)
-                  artist  = predict(image, "artist")[0]
-                  artistprob = predict(image, "artist")[1]
-                  return render_template("classifications.html", artist = artist, artistprob = artistprob, period = period, match = match)
-              elif 'artist' and 'time' and 'style' in request.form:
-                  style = predict(image, "style")[0]
-                  styleprob = predict(image, "style")[1]                
-                  artist = predict(image, "artist")[0]
-                  artistprob = predict(image, "artist")[1]
-                  firststyle = style[0]
-                  period = style_to_time(firststyle)
-                  return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, match = match)
-              else: 
+              if 'similar' in request.form and 'style' not in request.form and 'artist' not in request.form:
+                  intermediate = predict(image, "style")[0]
+                  images_style = get_similar(intermediate, 3)
+              if 'similar' in request.form and 'artist' in request.form:
+                  images_artist = get_similar_artist(artist, 3)
+              if 'similar' in request.form and 'style' in request.form:
+                  images_style = get_similar(style, 3)
+              if 'style' not in request.form and 'artist' not in request.form and 'time' not in request.form and 'similar' not in request.form: 
                   return render_template("upload.html", message = "Please choose a classifier after uploading (see step 2)", scroll = "display")
+              return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, images_style = images_style, images_artist = images_artist, match = match)
 
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template("upload.html", message = "The Similar Images functionality has recieved too many requests! Please check back later. Style, Artist, and Time Period should still work.", scroll = "display"), 500         
 
 #predict style or artist on uploaded image
 def predict(img_file, classifier):
@@ -123,6 +119,51 @@ def predict(img_file, classifier):
     probs3 = round(probs_list[thirdi] * 100, 2)
     #Return top 2 matches and percentage
     return [category, category2, category3], [probs, probs2, probs3]
+
+def get_similar(classifier, num_images):
+    ''' 
+        FOR STYLE
+        Displays random images of a certain style or artist from our Github repo
+        This function assumes that images are organized based on the classifier
+        classifer: the predicted category (style or artist) 
+                    (does not have to be a string! Can come straight from predictor)
+        num_images: The number of images to get'''
+
+    contents = repo.get_contents("data/" + str(classifier[0]))
+
+    sim_images = []     # paths of chosen images
+
+    while len(sim_images) < num_images:
+        img_name = random.choice(contents).path
+        if img_name not in sim_images:
+            sim_images.append(img_name)
+    
+    style = [] # array of json objs
+    for i in range(len(sim_images)):
+        style.append(repo.get_contents(sim_images[i]).download_url)
+        
+    
+    return style
+
+def get_similar_artist(classifier, num_images):
+    '''
+        artist version of get_similar 
+    '''
+    contents = repo.get_contents("data/artist" + str(classifier[0]))
+
+    sim_images = []     # paths of chosen images
+
+    while len(sim_images) < num_images:
+        img_name = random.choice(contents).path
+        if img_name not in sim_images:
+            sim_images.append(img_name)
+
+    artist = [] # array of json objs
+    for i in range(len(sim_images)):
+        artist.append(repo.get_contents(sim_images[i]).download_url)
+    
+    return artist
+
 
 #find time period based on style
 def style_to_time(prediction):

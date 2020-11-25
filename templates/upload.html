@@ -27,7 +27,7 @@
         <form id="image-upload-form" enctype="multipart/form-data" name="myForm" action = "/" method="POST" onchange="display()" onsubmit="load()">
             <div class = "left" > 
                 <h3> 1. Upload your image </h3>
-                <p style="margin-bottom: 10px;"> only accepts .jpg/.jpeg <br> Size limit: 2560 x 2560 pixels</p>
+                <p style="margin-bottom: 10px;"> only accepts .jpg/.jpeg</p>
                 <!-- Upload button and draggable user input, accepts images on default -->
                 <label for="img" class="button">UPLOAD</label>
                 <div class="drag-box" style="margin-top: 40px" id = "drag-box">
@@ -40,12 +40,9 @@
                 <div id = "show-image" class = "show-image">
                     <div id = "display-box" class = "display-box">
                         <img class = "image-format" id="image"> </img>
-                        <!-- TODO: add remove button (maybe) -->
                     </div>
                 </div>
             </div>
-            <!-- TODO: make checkboxes work!!! Currently, the form doesn't retain any 
-                values in the multidict with the return statement in the onsubmit -->
             <div class = "middle">
                 <h3> 2. Choose your classifier </h3>
                 <p style="margin-bottom: 10px;"> Check one or more <br> of the following </p>

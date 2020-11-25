@@ -5,38 +5,57 @@
 </head>
 
 <body>
-<div class = "bg">
-    <div class = "text-container">
-        <h1> CLASSIFICATION RESULTS </h1> 
-        {% if style %}
-        <p>
-            <h3> STYLE </h3>
-            {%for item in style%}
-                {{match[loop.index0]}} {{item}} ({{styleprob[loop.index0]}}%) <br>
-            {% endfor %}
-        </p>
-        <br>
-        {% endif %}
+<div class = "bg"> </div>
+<div class = "text-container">
+    <h1> CLASSIFICATION RESULTS </h1> 
+    {% if style != '' %}
+    <p>
+        <h3> STYLE </h3>
+        {%for item in style%}
+            {{match[loop.index0]}} {{item}} ({{styleprob[loop.index0]}}%) <br>
+        {% endfor %}
+    </p>
+    <br>
+    {% endif %}
 
 
-        {% if artist %}
-        <p>
-            <h3> ARTIST </h3>
-            {%for item in artist%}
-            {{match[loop.index0]}} {{item}} ({{artistprob[loop.index0]}}%) <br>
-            {% endfor %}
-        </p>
-        <br>
-        {% endif %}
+    {% if artist != '' %}
+    <p>
+        <h3> ARTIST </h3>
+        {%for item in artist%}
+        {{match[loop.index0]}} {{item}} ({{artistprob[loop.index0]}}%) <br>
+        {% endfor %}
+    </p>
+    <br>
+    {% endif %}
 
-        {% if period %}
-        <p>
-            <h3> TIME PERIOD </h3>
-            {{period}}
-        </p>
-        <br>
-        {% endif %}
-    </div>
+    {% if period != '' %}
+    <p>
+        <h3> TIME PERIOD </h3>
+        {{period}}
+    </p>
+    <br>
+    {% endif %}
+
+    {% if images_style != '' %}
+    <h3>SIMILAR IMAGES (style) <br> </h3>
+    {%for item in images_style%}
+    <img src="{{item}}" height = 200 width = 200>
+    {% endfor %}
+    <br>
+{% endif %}
+
+{% if images_artist != '' %}
+    <h3> SIMILAR IMAGES (artist) </p>
+    {%for item in images_artist%}
+    <img src="{{item}}" height = 200 width = 200>
+    {% endfor %}
+    <br>
+{% endif %}
+
+<div style = "padding: 20px">
+    <h3> Optional Feedback Form </h3> 
+    <p> Help us improve our website!</p>
+    <a href = "https://forms.gle/jP1zWAmCBwRqvxVH9" target = "_blank"> Feedback Form
 </div>
-
 </body>
