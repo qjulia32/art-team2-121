@@ -59,7 +59,7 @@ def upload_file():
               period = ''
               similar = ''
               images_style = ''
-              images_artists = ''
+              images_artist = ''
               intermediate = ''
               if 'style' in request.form:
                   style = predict(image, "style")[0]
@@ -82,11 +82,11 @@ def upload_file():
               return render_template("classifications.html", style = style, styleprob = styleprob, artist = artist, artistprob = artistprob, period = period, images_style = images_style, images_artist = images_artist, match = match)
 
 @app.errorhandler(500)
- """ return error when github api reaches request limit """
 def internal_error(e):
-    return render_template("upload.html", message = "The Similar Images functionality has recieved too many requests! Please check back later. Style, Artist, and Time Period should still work.", scroll = "display"), 500         
+  """ return error when github api reaches request limit """
+  return render_template("upload.html", message = "The Similar Images functionality has received too many requests (it will be up again sometime later.)! Style, Artist, and Time Period still work.", scroll = "display"), 500    
 
-#predict style or artist on uploaded image
+
 def predict(img_file, classifier):
     """Arguments: fastai recognizable image, string describing which classifier(s) were checked
     Returns: prediction of the top three matches for either style or artist, depending on the 
